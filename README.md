@@ -1,4 +1,4 @@
-# Lucky Trip
+# Final Call
 
 ## Proposal
 
@@ -27,8 +27,6 @@ Start your Java project and create a Git repository for it. Develop the backend 
 
 ## Idea
 
-_Describe idea..._
-New name proposal: Final Call
 Check-in platform that allows you to book your last minute trip. 
 You will be able to create an account, check which flights are available and book them.
 Your data will be saved in our database and the flights will be generated using real time information on real flights.
