@@ -35,8 +35,19 @@ Get ready to book your last minute flight with Final Call!
 
 ## Technology Stack
 
-- Java 
-- Javascript 
+- Javascript
+- JQuery
+- HTML5
+- CSS3
+- JSON
+- Jackson (JSON library)
+- Tomcat
+- Java
+- Spring
 - Hibernate ORM
+- SQL
 - MySQL
+- Maven
+- JUnit
+- Mockito
 - _Add more..._
