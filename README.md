@@ -44,6 +44,7 @@ Get ready to book your last minute flight with Final Call!
 - Tomcat
 - Java
 - Spring
+- Thymeleaf
 - Hibernate ORM
 - SQL
 - MySQL
