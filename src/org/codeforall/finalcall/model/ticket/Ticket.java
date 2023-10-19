@@ -1,8 +1,8 @@
-package org.codeforall.luckytrip.model.ticket;
+package org.codeforall.finalcall.model.ticket;
 
-import org.codeforall.luckytrip.SeatRandomizer;
-import org.codeforall.luckytrip.model.Flight;
-import org.codeforall.luckytrip.model.Passenger;
+import org.codeforall.finalcall.SeatRandomizer;
+import org.codeforall.finalcall.model.Flight;
+import org.codeforall.finalcall.model.Passenger;
 
 public abstract class Ticket {
 
@@ -10,6 +10,7 @@ public abstract class Ticket {
     protected Passenger passenger;
     protected String seat;
     // Each subclass is created with a num of cabinbags + checkinbags included that can be incremented? Seats are affected also?
+    // Check if decorator pattern applies here
     protected int cabinBags;
     protected int checkInBags;
     protected boolean checkIn;

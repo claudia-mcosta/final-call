@@ -1,8 +1,8 @@
-package org.codeforall.luckytrip.model;
+package org.codeforall.finalcall.model;
 
 public class Flight {
 
-    private String id;
+    private String code;
     private String carrier;
     private Airport departure;
     private Airport destination;

@@ -1,4 +1,4 @@
-package org.codeforall.luckytrip.model;
+package org.codeforall.finalcall.model;
 
 public enum FlightClass {
 

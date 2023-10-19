@@ -1,4 +1,4 @@
-package org.codeforall.luckytrip;
+package org.codeforall.finalcall;
 
 public class SeatRandomizer {
 
