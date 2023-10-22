@@ -8,7 +8,7 @@ CREATE TABLE passengers
     national_id VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
     first_name  VARCHAR(30)        NOT NULL,
     last_name   VARCHAR(30)        NOT NULL,
-    dob         DATETIME           NOT NULL,
+    dob         DATE               NOT NULL,
     phone       VARCHAR(30),
     email       VARCHAR(40)        NOT NULL
 );
@@ -16,12 +16,12 @@ CREATE TABLE passengers
 DROP TABLE IF EXISTS airports;
 CREATE TABLE airports
 (
-    code    VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
-    name    VARCHAR(60)        NOT NULL,
-    city    VARCHAR(30)        NOT NULL,
-    country VARCHAR(30)        NOT NULL,
-    latitude DOUBLE NOT NULL,
-    longitude DOUBLE NOT NULL
+    code      VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
+    name      VARCHAR(60)        NOT NULL,
+    city      VARCHAR(30)        NOT NULL,
+    country   VARCHAR(30)        NOT NULL,
+    latitude  DOUBLE             NOT NULL,
+    longitude DOUBLE             NOT NULL
 );
 
 DROP TABLE IF EXISTS flights;
@@ -43,14 +43,18 @@ CREATE TABLE tickets
     passenger_national_id VARCHAR(30) NOT NULL,
     flight_code           VARCHAR(30) NOT NULL,
     cabin_class           VARCHAR(30) NOT NULL,
-    price DOUBLE NOT NULL,
+    price                 DOUBLE      NOT NULL,
     seat                  VARCHAR(30),
-    cabin_bags            INT,
-    carry_on_bags         INT,
+    cabin_bags            INT         NOT NULL,
+    carry_on_bags         INT         NOT NULL,
+    PRIMARY KEY (passenger_national_id, flight_code),
     FOREIGN KEY (passenger_national_id) REFERENCES passengers (national_id),
-    FOREIGN KEY (flight_code) REFERENCES flights (code),
-    PRIMARY KEY (passenger_national_id, flight_code)
+    FOREIGN KEY (flight_code) REFERENCES flights (code)
 );
+
+INSERT INTO passengers(national_id, first_name, last_name, dob, phone, email)
+VALUES ('123456789EF', 'Cláudia', 'Costa', '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
+       ('987654321AB', 'David', 'Cardoso', '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
 
 INSERT INTO airports (code, name, city, country, latitude, longitude)
 VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United States', 40.6413, -73.7781),
@@ -155,6 +159,12 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
        ('PER', 'Perth Airport', 'Perth', 'Australia', -31.9385, 115.9672),
        ('DFW', 'Fort Worth International Airport', 'Dallas', 'United States', 32.8998, -97.0403);
 
+INSERT INTO flights(code, carrier, departure_airport_code, destination_airport_code, departure_time, duration)
+VALUES ('BA0499', 'British Airways', 'LIS', 'LHR', '2023-10-23 09:30:00', '180'),
+       ('TP0538', 'TAP Air Portugal', 'LIS', 'BER', '2023-10-23 08:00:00', '210');
 
+INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, carry_on_bags)
+VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
+       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1');
 
 
