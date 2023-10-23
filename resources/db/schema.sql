@@ -2,46 +2,41 @@ DROP DATABASE IF EXISTS final_call;
 CREATE DATABASE final_call;
 USE final_call;
 
-DROP TABLE IF EXISTS passengers;
-CREATE TABLE passengers
-(
-    national_id VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
-    first_name  VARCHAR(30)        NOT NULL,
-    last_name   VARCHAR(30)        NOT NULL,
-    dob         DATE               NOT NULL,
+CREATE TABLE passengers (
+    national_id VARCHAR(30),
+    first_name  VARCHAR(30) NOT NULL,
+    last_name   VARCHAR(30) NOT NULL,
+    dob         DATE        NOT NULL,
     phone       VARCHAR(30),
-    email       VARCHAR(40)        NOT NULL
+    email       VARCHAR(40) NOT NULL,
+    PRIMARY KEY (national_id),
 );
 
-DROP TABLE IF EXISTS airports;
-CREATE TABLE airports
-(
-    code      VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
-    name      VARCHAR(60)        NOT NULL,
-    city      VARCHAR(30)        NOT NULL,
-    country   VARCHAR(30)        NOT NULL,
-    latitude  DOUBLE             NOT NULL,
-    longitude DOUBLE             NOT NULL
+CREATE TABLE airports (
+    code      VARCHAR(30),
+    name      VARCHAR(60) NOT NULL,
+    city      VARCHAR(30) NOT NULL,
+    country   VARCHAR(30) NOT NULL,
+    latitude  DOUBLE      NOT NULL,
+    longitude DOUBLE      NOT NULL,
+    PRIMARY KEY (code),
 );
 
-DROP TABLE IF EXISTS flights;
-CREATE TABLE flights
-(
-    code                     VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
-    carrier                  VARCHAR(30)        NOT NULL,
-    departure_airport_code   VARCHAR(30)        NOT NULL,
-    destination_airport_code VARCHAR(30)        NOT NULL,
-    departure_time           DATETIME           NOT NULL,
-    duration                 INT                NOT NULL,
+CREATE TABLE flights (
+    code                     VARCHAR(30),
+    carrier                  VARCHAR(30) NOT NULL,
+    departure_airport_code   VARCHAR(30) NOT NULL,
+    destination_airport_code VARCHAR(30) NOT NULL,
+    departure_time           DATETIME    NOT NULL,
+    duration                 INT         NOT NULL,
+    PRIMARY KEY (code),
     FOREIGN KEY (departure_airport_code) REFERENCES airports (code),
     FOREIGN KEY (destination_airport_code) REFERENCES airports (code)
 );
 
-DROP TABLE IF EXISTS tickets;
-CREATE TABLE tickets
-(
-    passenger_national_id VARCHAR(30) NOT NULL,
-    flight_code           VARCHAR(30) NOT NULL,
+CREATE TABLE tickets (
+    passenger_national_id VARCHAR(30),
+    flight_code           VARCHAR(30),
     cabin_class           VARCHAR(30) NOT NULL,
     price                 DOUBLE      NOT NULL,
     seat                  VARCHAR(30),
