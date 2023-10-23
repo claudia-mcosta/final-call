@@ -11,4 +11,10 @@ public class Request {
         String agentType = "AGENT_TYPE_AIRLINE";
     }
 
+    public static void main(String[] args) {
+        Query query = new Query();
+        query.setCultureData("en", "PT", "EUR");
+        query.addQueryLeg("LIS", "LDN");
+        System.out.println(query);
+    }
 }

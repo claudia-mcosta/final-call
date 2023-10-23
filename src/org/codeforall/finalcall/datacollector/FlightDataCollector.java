@@ -19,6 +19,18 @@ public class FlightDataCollector {
         //writeToFile();
     }
 
+    public static void main(String[] args) {
+        new FlightDataCollector();
+    }
+
+    public void getAirports(){
+
+    }
+
+    public void getFlights(){
+
+    }
+
     public void connect(String httpVerb, String path) {
 
         String urlString = baseUrl + path;
