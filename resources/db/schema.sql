@@ -9,7 +9,7 @@ CREATE TABLE passengers (
     dob         DATE        NOT NULL,
     phone       VARCHAR(30),
     email       VARCHAR(40) NOT NULL,
-    PRIMARY KEY (national_id),
+    PRIMARY KEY (national_id)
 );
 
 CREATE TABLE airports (
@@ -19,7 +19,7 @@ CREATE TABLE airports (
     country   VARCHAR(30) NOT NULL,
     latitude  DOUBLE      NOT NULL,
     longitude DOUBLE      NOT NULL,
-    PRIMARY KEY (code),
+    PRIMARY KEY (code)
 );
 
 CREATE TABLE flights (
