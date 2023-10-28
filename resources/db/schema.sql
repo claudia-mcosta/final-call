@@ -43,7 +43,7 @@ CREATE TABLE tickets (
     cabin_bags            INT         NOT NULL,
     carry_on_bags         INT         NOT NULL,
     PRIMARY KEY (passenger_national_id, flight_code),
-    FOREIGN KEY (passenger_national_id) REFERENCES passengers (national_id),
+    FOREIGN KEY (passenger_national_id) REFERENCES passengers (national_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (flight_code) REFERENCES flights (code)
 );
 
