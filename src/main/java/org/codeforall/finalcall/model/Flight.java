@@ -1,7 +1,6 @@
 package org.codeforall.finalcall.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "flights")

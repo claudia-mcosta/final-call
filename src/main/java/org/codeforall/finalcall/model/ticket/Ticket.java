@@ -1,6 +1,5 @@
 package org.codeforall.finalcall.model.ticket;
 
-import org.codeforall.finalcall.SeatRandomizer;
 import org.codeforall.finalcall.model.*;
 
 import javax.persistence.*;
