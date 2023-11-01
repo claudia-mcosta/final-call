@@ -26,4 +26,16 @@ public class Flight {
     public void setCode(String code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "code='" + code + '\'' +
+                ", carrier='" + carrier + '\'' +
+                ", departure=" + departure.getCode() +
+                ", destination=" + destination.getCode() +
+                ", departureTime='" + departureTime + '\'' +
+                ", duration='" + duration + '\'' +
+                '}';
+    }
 }

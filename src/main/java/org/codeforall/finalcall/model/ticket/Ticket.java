@@ -3,14 +3,15 @@ package org.codeforall.finalcall.model.ticket;
 import org.codeforall.finalcall.model.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "tickets")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "cabin_class")
-public abstract class Ticket implements Serializable {
+@IdClass(TicketId.class)
+public abstract class Ticket {
 
+    // TODO: Couldn't make Embbedable work with the mappedBy in Passenger class. Check what is best in this situation --> https://jpa-buddy.com/blog/the-ultimate-guide-on-composite-ids-in-jpa-entities/
     @Id
     @ManyToOne
     protected Flight flight;
@@ -19,8 +20,8 @@ public abstract class Ticket implements Serializable {
     protected Passenger passenger;
     protected double price;
     protected String seat;
-    // Each subclass is created with a num of cabinbags + checkinbags included that can be incremented? Seats are affected also?
-    // Check if decorator pattern applies here
+
+    // TODO: Check if decorator pattern applies here if each subclass is created with a num of cabinbags + checkinbags included that can be incremented. Seats are affected also?
     @Column(name = "cabin_bags")
     protected int cabinBags;
     @Column(name = "checked_bags")
@@ -31,12 +32,12 @@ public abstract class Ticket implements Serializable {
         return flight;
     }
 
-    public Passenger getPassenger() {
-        return passenger;
-    }
-
     public void setFlight(Flight flight) {
         this.flight = flight;
+    }
+
+    public Passenger getPassenger() {
+        return passenger;
     }
 
     public void setPassenger(Passenger passenger) {
@@ -45,7 +46,19 @@ public abstract class Ticket implements Serializable {
 
     public abstract CabinClass getCabinClass();
 
-/*
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "flight=" + flight.getCode() +
+                ", passenger=" + passenger.getNationalId() +
+                ", price=" + price +
+                ", seat='" + seat + '\'' +
+                ", cabinBags=" + cabinBags +
+                ", checkedBags=" + checkedBags +
+                '}';
+    }
+
+    /*
     // Place these methods in services?
 
     public void checkIn(){
@@ -57,9 +70,11 @@ public abstract class Ticket implements Serializable {
         this.checkIn = true;
         this.seat = seat;
     }
+
     public void addCabinBag(int quantity){
         cabinBags += quantity;
     }
+
     public void addCheckInBag(int quantity){
         checkedBags += quantity;
     }
