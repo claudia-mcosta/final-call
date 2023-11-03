@@ -82,6 +82,16 @@ public class Passenger {
         return tickets;
     }
 
+    public void buyTicket(Ticket ticket) {
+        tickets.add(ticket);
+        ticket.setPassenger(this);
+    }
+
+    public void cancelTicket(Ticket ticket) {
+        tickets.remove(ticket);
+        ticket.setPassenger(null);
+    }
+
     @Override
     public String toString() {
         return "Passenger{" +
