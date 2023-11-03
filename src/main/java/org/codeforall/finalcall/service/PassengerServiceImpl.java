@@ -3,9 +3,9 @@ package org.codeforall.finalcall.service;
 import org.codeforall.finalcall.model.Passenger;
 import org.codeforall.finalcall.model.ticket.Ticket;
 import org.codeforall.finalcall.model.ticket.TicketId;
-import org.codeforall.finalcall.dao.*;
 import org.codeforall.finalcall.exceptions.*;
-
+import org.codeforall.finalcall.persistence.dao.PassengerDao;
+import org.codeforall.finalcall.persistence.dao.TicketDao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
