@@ -14,7 +14,5 @@ public interface AirportService {
 
     List<Airport> list();
 
-    List<Airport> listAvailable();
-
-    List<Airport> listAvailableFrom(String code);
+    List<Airport> listFrom(String code);
 }

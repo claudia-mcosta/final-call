@@ -2,8 +2,6 @@ package org.codeforall.finalcall.service;
 
 import org.codeforall.finalcall.model.Airport;
 import org.codeforall.finalcall.persistence.dao.AirportDao;
-import org.codeforall.finalcall.persistence.dao.PassengerDao;
-import org.codeforall.finalcall.persistence.dao.TicketDao;
 
 import java.util.List;
 
@@ -14,7 +12,6 @@ public class AirportServiceImpl implements AirportService {
     public void setAirportDao(AirportDao airportDao) {
         this.airportDao = airportDao;
     }
-
 
     @Override
     public Airport get(String code) {
@@ -36,14 +33,8 @@ public class AirportServiceImpl implements AirportService {
         return airportDao.findAll();
     }
 
-    //STILL MISSING IMPL FROM THIS LINE BELOW
     @Override
-    public List<Airport> listAvailable() {
-        return airportDao.listAvailable();
-    }
-
-    @Override
-    public List<Airport> listAvailableFrom(String code) {
-        return airportDao.listAvailableFrom(code);
+    public List<Airport> listFrom(String code) {
+        return airportDao.listFrom(code);
     }
 }

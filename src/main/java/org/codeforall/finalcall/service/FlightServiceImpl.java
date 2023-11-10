@@ -1,5 +1,6 @@
 package org.codeforall.finalcall.service;
 
+import org.codeforall.finalcall.model.Airport;
 import org.codeforall.finalcall.model.Flight;
 import org.codeforall.finalcall.persistence.dao.FlightDao;
 
@@ -34,12 +35,12 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight getNextFrom(String departureAirportCode) {
-        return flightDao.getNextFrom(departureAirportCode);
+    public Flight getNextFrom(Airport airport) {
+        return flightDao.getNextFrom(airport);
     }
 
     @Override
-    public Flight getNextFromTo(String departureAirportCode, String destinationAirportCode) {
-        return flightDao.getNextFromTo(departureAirportCode,destinationAirportCode);
+    public Flight getNextFromTo(Airport departure, Airport destination) {
+        return flightDao.getNextFromTo(departure, destination);
     }
 }

@@ -44,6 +44,39 @@ public abstract class Ticket {
         this.passenger = passenger;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public void checkIn(String seat){
+        if (this.seat == null)
+            this.seat = seat;
+    }
+
+    public int getCabinBags() {
+        return cabinBags;
+    }
+
+    public void addCabinBag(int quantity){
+        cabinBags += quantity;
+    }
+
+    public int getCheckedBags() {
+        return checkedBags;
+    }
+
+    public void addCheckedBag(int quantity){
+        checkedBags += quantity;
+    }
+
     public abstract CabinClass getCabinClass();
 
     @Override
@@ -51,32 +84,11 @@ public abstract class Ticket {
         return "Ticket{" +
                 "flight=" + flight.getCode() +
                 ", passenger=" + passenger.getNationalId() +
+                ", cabinClass=" + getCabinClass() +
                 ", price=" + price +
-                ", seat='" + seat + '\'' +
+                ", seat=" + seat +
                 ", cabinBags=" + cabinBags +
                 ", checkedBags=" + checkedBags +
                 '}';
     }
-
-    /*
-    // Place these methods in services?
-
-    public void checkIn(){
-        this.checkIn = true;
-        this.seat = SeatRandomizer.getSeat();
-    }
-
-    public void checkIn(String seat){
-        this.checkIn = true;
-        this.seat = seat;
-    }
-
-    public void addCabinBag(int quantity){
-        cabinBags += quantity;
-    }
-
-    public void addCheckInBag(int quantity){
-        checkedBags += quantity;
-    }
-*/
 }

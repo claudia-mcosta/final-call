@@ -109,8 +109,8 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
 
 DELETE FROM flights;
 INSERT INTO flights(code, carrier, departure_airport_code, destination_airport_code, departure_time, duration)
-VALUES ('BA0499', 'British Airways', 'LIS', 'LHR', '2023-10-23 09:30:00', '180'),
-       ('TP0538', 'TAP Air Portugal', 'LIS', 'BER', '2023-10-23 08:00:00', '210');
+VALUES ('BA0499', 'British Airways', 'LIS', 'BER', '2023-12-23 09:30:00', '180'),
+       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', '2023-12-23 08:00:00', '210');
 
 DELETE FROM tickets;
 INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
