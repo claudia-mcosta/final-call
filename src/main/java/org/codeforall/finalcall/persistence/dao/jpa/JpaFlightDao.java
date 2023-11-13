@@ -1,16 +1,15 @@
 package org.codeforall.finalcall.persistence.dao.jpa;
 
-import org.codeforall.finalcall.model.Airport;
-import org.codeforall.finalcall.model.Flight;
-import org.codeforall.finalcall.model.ticket.Ticket;
-import org.codeforall.finalcall.persistence.dao.AirportDao;
+import org.codeforall.finalcall.persistence.model.Airport;
+import org.codeforall.finalcall.persistence.model.Flight;
 import org.codeforall.finalcall.persistence.dao.FlightDao;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+@Repository
 public class JpaFlightDao extends GenericJpaDao<Flight, String> implements FlightDao {
 
     public JpaFlightDao() {

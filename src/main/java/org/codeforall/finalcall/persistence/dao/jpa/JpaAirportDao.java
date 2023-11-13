@@ -1,14 +1,13 @@
 package org.codeforall.finalcall.persistence.dao.jpa;
 
-import org.codeforall.finalcall.model.Airport;
-import org.codeforall.finalcall.model.Flight;
+import org.codeforall.finalcall.persistence.model.Airport;
 import org.codeforall.finalcall.persistence.dao.AirportDao;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.*;
 import java.util.List;
 
+@Repository
 public class JpaAirportDao extends GenericJpaDao<Airport, String> implements AirportDao {
 
     public JpaAirportDao() {

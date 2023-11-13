@@ -1,4 +1,4 @@
-package org.codeforall.finalcall.model.ticket;
+package org.codeforall.finalcall.persistence.model.ticket;
 
 public enum CabinClass {
 

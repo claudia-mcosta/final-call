@@ -1,7 +1,8 @@
 package org.codeforall.finalcall.service;
 
-import org.codeforall.finalcall.model.Airport;
+import org.codeforall.finalcall.persistence.model.Airport;
 import org.codeforall.finalcall.persistence.dao.AirportDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ public class AirportServiceImpl implements AirportService {
 
     private AirportDao airportDao;
 
+    @Autowired
     public void setAirportDao(AirportDao airportDao) {
         this.airportDao = airportDao;
     }

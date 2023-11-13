@@ -1,15 +1,19 @@
 package org.codeforall.finalcall.service;
 
-import org.codeforall.finalcall.model.Airport;
-import org.codeforall.finalcall.model.Flight;
+import org.codeforall.finalcall.persistence.model.Airport;
+import org.codeforall.finalcall.persistence.model.Flight;
 import org.codeforall.finalcall.persistence.dao.FlightDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FlightServiceImpl implements FlightService {
 
     private FlightDao flightDao;
 
+    @Autowired
     public void setFlightDao(FlightDao flightDao) {
         this.flightDao = flightDao;
     }

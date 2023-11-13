@@ -1,9 +1,9 @@
 package org.codeforall.finalcall.service;
 
 import org.codeforall.finalcall.exceptions.*;
-import org.codeforall.finalcall.model.Passenger;
-import org.codeforall.finalcall.model.ticket.Ticket;
-import org.codeforall.finalcall.model.ticket.TicketId;
+import org.codeforall.finalcall.persistence.model.Passenger;
+import org.codeforall.finalcall.persistence.model.ticket.Ticket;
+import org.codeforall.finalcall.persistence.model.ticket.TicketId;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public interface PassengerService {
 
     List<Passenger> list();
 
-    List<Ticket> listTickets(String nationalId) throws PassengerNotFoundException;
+    List<Ticket> listTickets(Passenger passenger) throws PassengerNotFoundException;
 
     Ticket buyTicket(String nationalId, Ticket ticket) throws PassengerNotFoundException;
 
-    void cancelTicket(String nationalId, TicketId ticketId) throws PassengerNotFoundException, TicketNotFoundException ;
+    void cancelTicket(String nationalId, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException ;
 }

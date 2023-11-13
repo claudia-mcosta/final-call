@@ -1,6 +1,6 @@
-package org.codeforall.finalcall;
+package org.codeforall.finalcall.service;
 
-import org.codeforall.finalcall.model.ticket.CabinClass;
+import org.codeforall.finalcall.persistence.model.ticket.CabinClass;
 
 import java.util.List;
 

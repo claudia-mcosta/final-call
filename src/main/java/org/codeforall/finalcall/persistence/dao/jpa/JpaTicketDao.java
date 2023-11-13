@@ -1,16 +1,18 @@
 package org.codeforall.finalcall.persistence.dao.jpa;
 
-import org.codeforall.finalcall.model.Flight;
-import org.codeforall.finalcall.model.Passenger;
-import org.codeforall.finalcall.model.ticket.Ticket;
-import org.codeforall.finalcall.model.ticket.TicketId;
+import org.codeforall.finalcall.persistence.model.Flight;
+import org.codeforall.finalcall.persistence.model.Passenger;
+import org.codeforall.finalcall.persistence.model.ticket.Ticket;
+import org.codeforall.finalcall.persistence.model.ticket.TicketId;
 import org.codeforall.finalcall.persistence.dao.TicketDao;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import java.util.List;
 
 // TODO: Check if TicketDao's find and delete methods should have Passenger and Flight as arguments instead of the IdClass TicketId. Ticket has composite key, therefore the id is not a String like the other models. This is working as is though.
 
+@Repository
 public class JpaTicketDao extends GenericJpaDao<Ticket, TicketId> implements TicketDao {
 
     public JpaTicketDao() {

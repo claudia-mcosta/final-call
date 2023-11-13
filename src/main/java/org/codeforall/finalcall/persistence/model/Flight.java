@@ -1,4 +1,4 @@
-package org.codeforall.finalcall.model;
+package org.codeforall.finalcall.persistence.model;
 
 import javax.persistence.*;
 import java.util.Date;

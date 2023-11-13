@@ -1,6 +1,6 @@
-package org.codeforall.finalcall.model.ticket;
+package org.codeforall.finalcall.persistence.model.ticket;
 
-import org.codeforall.finalcall.model.*;
+import org.codeforall.finalcall.persistence.model.*;
 
 import javax.persistence.*;
 
@@ -66,7 +66,8 @@ public abstract class Ticket {
     }
 
     public void addCabinBag(int quantity){
-        cabinBags += quantity;
+        if (cabinBags + quantity <= 2)
+            cabinBags += quantity;
     }
 
     public int getCheckedBags() {
@@ -74,7 +75,8 @@ public abstract class Ticket {
     }
 
     public void addCheckedBag(int quantity){
-        checkedBags += quantity;
+        if (checkedBags + quantity <= 2)
+            checkedBags += quantity;
     }
 
     public abstract CabinClass getCabinClass();

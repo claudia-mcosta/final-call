@@ -1,7 +1,7 @@
-package org.codeforall.finalcall.model.ticket;
+package org.codeforall.finalcall.persistence.model.ticket;
 
-import org.codeforall.finalcall.model.Flight;
-import org.codeforall.finalcall.model.Passenger;
+import org.codeforall.finalcall.persistence.model.Flight;
+import org.codeforall.finalcall.persistence.model.Passenger;
 
 import javax.persistence.*;
 import java.io.Serializable;

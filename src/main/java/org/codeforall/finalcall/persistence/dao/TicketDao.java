@@ -1,9 +1,9 @@
 package org.codeforall.finalcall.persistence.dao;
 
-import org.codeforall.finalcall.model.Flight;
-import org.codeforall.finalcall.model.Passenger;
-import org.codeforall.finalcall.model.ticket.Ticket;
-import org.codeforall.finalcall.model.ticket.TicketId;
+import org.codeforall.finalcall.persistence.model.Flight;
+import org.codeforall.finalcall.persistence.model.Passenger;
+import org.codeforall.finalcall.persistence.model.ticket.Ticket;
+import org.codeforall.finalcall.persistence.model.ticket.TicketId;
 
 import java.util.List;
 

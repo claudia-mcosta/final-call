@@ -1,6 +1,6 @@
-package org.codeforall.finalcall.model;
+package org.codeforall.finalcall.persistence.model;
 
-import org.codeforall.finalcall.model.ticket.Ticket;
+import org.codeforall.finalcall.persistence.model.ticket.Ticket;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -82,12 +82,12 @@ public class Passenger {
         return tickets;
     }
 
-    public void buyTicket(Ticket ticket) {
+    public void addTicket(Ticket ticket) {
         tickets.add(ticket);
         ticket.setPassenger(this);
     }
 
-    public void cancelTicket(Ticket ticket) {
+    public void removeTicket(Ticket ticket) {
         tickets.remove(ticket);
         ticket.setPassenger(null);
     }

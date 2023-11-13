@@ -1,7 +1,7 @@
 package org.codeforall.finalcall.service;
 
-import org.codeforall.finalcall.model.Airport;
-import org.codeforall.finalcall.model.Flight;
+import org.codeforall.finalcall.persistence.model.Airport;
+import org.codeforall.finalcall.persistence.model.Flight;
 
 import java.util.List;
 

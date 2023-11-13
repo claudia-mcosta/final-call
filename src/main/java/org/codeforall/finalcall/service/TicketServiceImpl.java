@@ -1,31 +1,38 @@
 package org.codeforall.finalcall.service;
 
-import org.codeforall.finalcall.SeatRandomizer;
 import org.codeforall.finalcall.exceptions.*;
-import org.codeforall.finalcall.model.Flight;
-import org.codeforall.finalcall.model.Passenger;
-import org.codeforall.finalcall.model.ticket.Ticket;
-import org.codeforall.finalcall.model.ticket.TicketId;
+import org.codeforall.finalcall.persistence.model.Flight;
+import org.codeforall.finalcall.persistence.model.Passenger;
+import org.codeforall.finalcall.persistence.model.ticket.Ticket;
+import org.codeforall.finalcall.persistence.model.ticket.TicketId;
 import org.codeforall.finalcall.persistence.dao.FlightDao;
 import org.codeforall.finalcall.persistence.dao.PassengerDao;
 import org.codeforall.finalcall.persistence.dao.TicketDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class TicketServiceImpl implements TicketService {
 
     private FlightDao flightDao;
     private PassengerDao passengerDao;
     private TicketDao ticketDao;
 
+    @Autowired
     public void setFlightDao(FlightDao flightDao) {
         this.flightDao = flightDao;
     }
+
+    @Autowired
     public void setPassengerDao(PassengerDao passengerDao) {
         this.passengerDao = passengerDao;
     }
+
+    @Autowired
     public void setTicketDao(TicketDao ticketDao) {
         this.ticketDao = ticketDao;
     }
@@ -66,12 +73,15 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void addCabinBag(String nationalId, TicketId ticketId, int quantity) throws ExcessBaggageException, PassengerNotFoundException, TicketNotFoundException {
+    public void addCabinBag(String nationalId, String flightCode, int quantity) throws ExcessBaggageException, FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException {
 
         Passenger passenger = Optional.ofNullable(passengerDao.findById(nationalId))
                 .orElseThrow(PassengerNotFoundException::new);
 
-        Ticket ticket = Optional.ofNullable(ticketDao.findById(ticketId))
+        Flight flight = Optional.ofNullable(flightDao.findById(flightCode))
+                .orElseThrow(FlightNotFoundException::new);
+
+        Ticket ticket = Optional.ofNullable(ticketDao.findByFlightAndPassenger(flight, passenger))
                 .orElseThrow(TicketNotFoundException::new);
 
         if (ticket.getCabinBags() + quantity >= 2) {
@@ -85,15 +95,18 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void addCheckedBag(String nationalId, TicketId ticketId, int quantity) throws ExcessBaggageException, PassengerNotFoundException, TicketNotFoundException {
+    public void addCheckedBag(String nationalId, String flightCode, int quantity) throws ExcessBaggageException, FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException {
 
         Passenger passenger = Optional.ofNullable(passengerDao.findById(nationalId))
                 .orElseThrow(PassengerNotFoundException::new);
 
-        Ticket ticket = Optional.ofNullable(ticketDao.findById(ticketId))
+        Flight flight = Optional.ofNullable(flightDao.findById(flightCode))
+                .orElseThrow(FlightNotFoundException::new);
+
+        Ticket ticket = Optional.ofNullable(ticketDao.findByFlightAndPassenger(flight, passenger))
                 .orElseThrow(TicketNotFoundException::new);
 
-        if (ticket.getCabinBags() + quantity >= 2) {
+        if (ticket.getCheckedBags() + quantity >= 2) {
             throw new ExcessBaggageException();
         }
 
