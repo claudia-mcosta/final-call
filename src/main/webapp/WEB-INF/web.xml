@@ -35,7 +35,7 @@
     </context-param>
 
     <listener>
-        <listener-class>org.codeforall.finalcall.Log4jWebConfig</listener-class>
+        <listener-class>io.codeforall.finalcall.Log4jWebConfig</listener-class>
     </listener>
 
     <!--
