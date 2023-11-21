@@ -41,7 +41,7 @@ CREATE TABLE tickets (
     price                 DOUBLE      NOT NULL,
     seat                  VARCHAR(30),
     cabin_bags            INT         NOT NULL,
-    carry_on_bags         INT         NOT NULL,
+    checked_bags          INT         NOT NULL,
     PRIMARY KEY (passenger_national_id, flight_code),
     FOREIGN KEY (passenger_national_id) REFERENCES passengers (national_id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (flight_code) REFERENCES flights (code)
@@ -158,7 +158,7 @@ INSERT INTO flights(code, carrier, departure_airport_code, destination_airport_c
 VALUES ('BA0499', 'British Airways', 'LIS', 'LHR', '2023-10-23 09:30:00', '180'),
        ('TP0538', 'TAP Air Portugal', 'LIS', 'BER', '2023-10-23 08:00:00', '210');
 
-INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, carry_on_bags)
+INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
 VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
        ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1');
 

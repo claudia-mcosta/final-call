@@ -15,7 +15,7 @@ public interface PassengerService {
 
     Passenger save(Passenger passenger);
 
-    void delete(String nationalId)  throws PassengerNotFoundException, AssociationExistsException;
+    void delete(String nationalId) throws PassengerNotFoundException;
 
     List<Passenger> list();
 

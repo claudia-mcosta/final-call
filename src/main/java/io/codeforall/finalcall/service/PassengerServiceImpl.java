@@ -51,10 +51,15 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Transactional
     @Override
-    public void delete(String nationalId) {
-         passengerDao.delete(nationalId);
+    public void delete(String nationalId) throws PassengerNotFoundException {
+
+        Optional.ofNullable(passengerDao.findById(nationalId))
+                .orElseThrow(PassengerNotFoundException::new);
+
+        passengerDao.delete(nationalId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Passenger> list() {
         return passengerDao.findAll();

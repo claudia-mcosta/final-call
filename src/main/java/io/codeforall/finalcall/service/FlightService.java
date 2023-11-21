@@ -1,5 +1,6 @@
 package io.codeforall.finalcall.service;
 
+import io.codeforall.finalcall.exceptions.FlightNotFoundException;
 import io.codeforall.finalcall.persistence.model.Airport;
 import io.codeforall.finalcall.persistence.model.Flight;
 
@@ -11,7 +12,7 @@ public interface FlightService {
 
     Flight save(Flight flight);
 
-    void delete(String code);
+    void delete(String code) throws FlightNotFoundException;
 
     List<Flight> list();
 
