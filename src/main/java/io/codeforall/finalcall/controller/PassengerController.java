@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/passenger")
@@ -54,7 +56,7 @@ public class PassengerController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/", ""})
-    public ResponseEntity<?> addPassenger(@RequestBody PassengerDto passengerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<?> addPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
         if (bindingResult.hasErrors() || passengerService.get(passengerDto.getNationalId()) != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -62,10 +64,8 @@ public class PassengerController {
 
         Passenger savedPassenger = passengerService.save(passengerDtoToPassenger.convert(passengerDto));
 
-        // get help from the framework building the path for the newly created resource
         UriComponents uriComponents = uriComponentsBuilder.path("/api/passenger/" + savedPassenger.getNationalId()).build();
 
-        // set headers with the created path
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponents.toUri());
 
@@ -73,7 +73,7 @@ public class PassengerController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    public ResponseEntity<PassengerDto> editPassenger(@RequestBody PassengerDto passengerDto, BindingResult bindingResult, @PathVariable String id) {
+    public ResponseEntity<PassengerDto> editPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, @PathVariable String id) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -97,7 +97,6 @@ public class PassengerController {
     public ResponseEntity<PassengerDto> deletePassenger(@PathVariable String id) {
 
         try {
-
             passengerService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

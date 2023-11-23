@@ -16,7 +16,7 @@ public interface FlightService {
 
     List<Flight> list();
 
-    Flight getNextFrom(Airport airport);
+    Flight getNextFlight(Airport airport);
 
-    Flight getNextFromTo(Airport departure, Airport destination);
+    Flight getNextFlight(Airport departure, Airport destination);
 }

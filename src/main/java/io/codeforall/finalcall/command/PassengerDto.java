@@ -1,12 +1,30 @@
 package io.codeforall.finalcall.command;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.*;
+import java.util.Date;
+
 public class PassengerDto {
 
+    @NotNull(message = "National ID or Passport is mandatory.")
+    @NotBlank(message = "National ID or Passport is mandatory.")
     private String nationalId;
+    @NotNull(message = "First name is mandatory.")
+    @NotBlank(message = "First name is mandatory.")
     private String firstName;
+    @NotNull(message = "Last name is mandatory.")
+    @NotBlank(message = "Last name is mandatory.")
     private String lastName;
-    private String dob;
+    @NotNull(message = "Birthdate is mandatory.")
+    @Past(message = "Birthdate should be in the past.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date birthdate;
+    @NotNull(message = "Email is mandatory.")
+    @NotBlank(message = "Email is mandatory.")
+    @Email(message = "Email should be valid.")
     private String email;
+    @Pattern(regexp = "^\\+?[0-9]*$", message = "Phone number contains invalid characters.")
     private String phone;
 
     public String getNationalId() {
@@ -33,12 +51,12 @@ public class PassengerDto {
         this.lastName = lastName;
     }
 
-    public String getDob() {
-        return dob;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getEmail() {
@@ -55,5 +73,17 @@ public class PassengerDto {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "PassengerDto{" +
+                "nationalId='" + nationalId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthdate='" + birthdate + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }

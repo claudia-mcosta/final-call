@@ -1,7 +1,7 @@
 DELETE FROM passengers;
-INSERT INTO passengers(national_id, first_name, last_name, dob, phone, email)
-VALUES ('123456789EF', 'Cláudia', 'Costa', '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
-       ('987654321AB', 'David', 'Cardoso', '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
+INSERT INTO passengers(national_id, first_name, last_name, birthdate, phone, email)
+VALUES ('123456789EF', 'Cláudia', 'Costa', DATE '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
+       ('987654321AB', 'David', 'Cardoso', DATE '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
 
 DELETE FROM airports;
 INSERT INTO airports (code, name, city, country, latitude, longitude)
@@ -108,9 +108,9 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
        ('DFW', 'Fort Worth International Airport', 'Dallas', 'United States', 32.8998, -97.0403);
 
 DELETE FROM flights;
-INSERT INTO flights(code, carrier, departure_airport_code, destination_airport_code, departure_time, duration)
-VALUES ('BA0499', 'British Airways', 'LIS', 'BER', '2023-12-23 09:30:00', '180'),
-       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', '2023-12-23 08:00:00', '210');
+INSERT INTO flights(code, carrier, origin_airport_code, destination_airport_code, departure_time, duration)
+VALUES ('BA0499', 'British Airways', 'LIS', 'BER', TIMESTAMP '2023-12-23 09:30:00', '180'),
+       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', TIMESTAMP '2023-12-23 08:00:00', '210');
 
 DELETE FROM tickets;
 INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)

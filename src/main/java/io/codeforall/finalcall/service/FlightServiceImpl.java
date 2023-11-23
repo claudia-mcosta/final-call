@@ -1,7 +1,6 @@
 package io.codeforall.finalcall.service;
 
 import io.codeforall.finalcall.exceptions.FlightNotFoundException;
-import io.codeforall.finalcall.exceptions.PassengerNotFoundException;
 import io.codeforall.finalcall.persistence.model.Airport;
 import io.codeforall.finalcall.persistence.model.Flight;
 import io.codeforall.finalcall.persistence.dao.FlightDao;
@@ -50,12 +49,12 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight getNextFrom(Airport airport) {
-        return flightDao.getNextFrom(airport);
+    public Flight getNextFlight(Airport origin) {
+        return flightDao.getNextFlight(origin);
     }
 
     @Override
-    public Flight getNextFromTo(Airport departure, Airport destination) {
-        return flightDao.getNextFromTo(departure, destination);
+    public Flight getNextFlight(Airport origin, Airport destination) {
+        return flightDao.getNextFlight(origin, destination);
     }
 }

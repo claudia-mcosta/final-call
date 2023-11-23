@@ -6,7 +6,7 @@ CREATE TABLE passengers (
     national_id VARCHAR(30),
     first_name  VARCHAR(30) NOT NULL,
     last_name   VARCHAR(30) NOT NULL,
-    dob         DATE        NOT NULL,
+    birthdate   DATE        NOT NULL,
     phone       VARCHAR(30),
     email       VARCHAR(40) NOT NULL,
     PRIMARY KEY (national_id)
@@ -25,12 +25,12 @@ CREATE TABLE airports (
 CREATE TABLE flights (
     code                     VARCHAR(30),
     carrier                  VARCHAR(30) NOT NULL,
-    departure_airport_code   VARCHAR(30) NOT NULL,
+    origin_airport_code      VARCHAR(30) NOT NULL,
     destination_airport_code VARCHAR(30) NOT NULL,
     departure_time           DATETIME    NOT NULL,
     duration                 INT         NOT NULL,
     PRIMARY KEY (code),
-    FOREIGN KEY (departure_airport_code) REFERENCES airports (code),
+    FOREIGN KEY (origin_airport_code) REFERENCES airports (code),
     FOREIGN KEY (destination_airport_code) REFERENCES airports (code)
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE tickets (
     FOREIGN KEY (flight_code) REFERENCES flights (code)
 );
 
-INSERT INTO passengers(national_id, first_name, last_name, dob, phone, email)
+INSERT INTO passengers(national_id, first_name, last_name, birthdate, phone, email)
 VALUES ('123456789EF', 'Cláudia', 'Costa', '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
        ('987654321AB', 'David', 'Cardoso', '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
 
@@ -154,12 +154,13 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
        ('PER', 'Perth Airport', 'Perth', 'Australia', -31.9385, 115.9672),
        ('DFW', 'Fort Worth International Airport', 'Dallas', 'United States', 32.8998, -97.0403);
 
-INSERT INTO flights(code, carrier, departure_airport_code, destination_airport_code, departure_time, duration)
-VALUES ('BA0499', 'British Airways', 'LIS', 'LHR', '2023-10-23 09:30:00', '180'),
-       ('TP0538', 'TAP Air Portugal', 'LIS', 'BER', '2023-10-23 08:00:00', '210');
+INSERT INTO flights(code, carrier, origin_airport_code, destination_airport_code, departure_time, duration)
+VALUES ('BA0499', 'British Airways', 'LIS', 'BER', '2023-12-23 09:30:00', '180'),
+       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', '2023-12-23 08:00:00', '210');
 
 INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
 VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
-       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1');
+       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1'),
+       ('987654321AB', 'BA0499', 'FIRST', '1570', '1', '2');
 
 

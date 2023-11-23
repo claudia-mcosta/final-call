@@ -91,6 +91,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.2.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.2.224</version>
@@ -131,7 +137,7 @@
 
     <build>
 
-        <finalName>Java Bank</finalName>
+        <finalName>Final Call</finalName>
 
         <plugins>
             <plugin>

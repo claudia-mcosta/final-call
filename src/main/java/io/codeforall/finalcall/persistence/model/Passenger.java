@@ -4,6 +4,7 @@ import io.codeforall.finalcall.persistence.model.ticket.Ticket;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class Passenger {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    private String dob;
+    private Date birthdate;
     private String email;
     private String phone;
     @OneToMany(
@@ -54,12 +55,12 @@ public class Passenger {
         this.lastName = lastName;
     }
 
-    public String getDob() {
-        return dob;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getEmail() {
@@ -98,7 +99,7 @@ public class Passenger {
                 "nationalId='" + nationalId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", dob='" + dob + '\'' +
+                ", birthdate='" + birthdate + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", tickets=" + tickets.size() +

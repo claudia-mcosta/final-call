@@ -26,7 +26,7 @@ public class PassengerDtoToPassenger {
         passenger.setNationalId(passengerDto.getNationalId());
         passenger.setFirstName(passengerDto.getFirstName());
         passenger.setLastName(passengerDto.getLastName());
-        passenger.setDob(passengerDto.getDob());
+        passenger.setBirthdate(passengerDto.getBirthdate());
         passenger.setEmail(passengerDto.getEmail());
         passenger.setPhone(passengerDto.getPhone());
 

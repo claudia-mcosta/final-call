@@ -1,9 +1,8 @@
 package io.codeforall.finalcall.controller;
 
 import io.codeforall.finalcall.command.FlightDto;
-import io.codeforall.finalcall.converter.FlightDtoToFlight;
 import io.codeforall.finalcall.converter.FlightToFlightDto;
-import io.codeforall.finalcall.exceptions.AirportNotFoundException;
+import io.codeforall.finalcall.converter.FlightDtoToFlight;
 import io.codeforall.finalcall.persistence.model.Airport;
 import io.codeforall.finalcall.persistence.model.Flight;
 import io.codeforall.finalcall.service.AirportService;
@@ -16,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -47,26 +48,39 @@ public class FlightController {
         this.flightDtoToFlight = flightDtoToFlight;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/origin/{code}")
-    public ResponseEntity<FlightDto> getNextFlightFrom(@PathVariable String code) {
+    @RequestMapping(method = RequestMethod.GET, path = "/select")
+    public ResponseEntity<FlightDto> getNextFlight(@RequestParam String origin, @RequestParam(defaultValue = "ANY") String destination) {
 
-        Airport airport = airportService.get(code);
-        Flight flight = flightService.getNextFrom(airport);
+        if (origin.equals(destination))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Airport originAirport = airportService.get(origin);
+        Airport destinationAirport = airportService.get(destination);
+
+        Flight flight = (destinationAirport != null ? flightService.getNextFlight(originAirport, destinationAirport) : flightService.getNextFlight(originAirport));
+
+        if (flight == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         FlightDto flightDto = flightToFlightDto.convert(flight);
 
         return new ResponseEntity<>(flightDto, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/origin/{originCode}/destination/{destinationCode}")
-    public ResponseEntity<FlightDto> getNextFlightFromTo(@PathVariable String originCode, @PathVariable String destinationCode) {
+    @RequestMapping(method = RequestMethod.POST, path = {"/", ""})
+    public ResponseEntity<?> addFlight(@Valid @RequestBody FlightDto flightDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
-        Airport origin = airportService.get(originCode);
-        Airport destination = airportService.get(destinationCode);
-        Flight flight = flightService.getNextFromTo(origin, destination);
+        if (bindingResult.hasErrors() || flightDto.getOriginAirportCode().equals(flightDto.getDestinationAirportCode()) || flightService.get(flightDto.getCode()) != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        FlightDto flightDto = flightToFlightDto.convert(flight);
+        Flight savedFlight = flightService.save(flightDtoToFlight.convert(flightDto));
 
-        return new ResponseEntity<>(flightDto, HttpStatus.OK);
+        UriComponents uriComponents = uriComponentsBuilder.path("/api/flight/" + savedFlight.getCode()).build();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriComponents.toUri());
+
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 }

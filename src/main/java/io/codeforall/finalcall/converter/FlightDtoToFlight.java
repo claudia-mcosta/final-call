@@ -32,7 +32,7 @@ public class FlightDtoToFlight {
 
         flight.setCode(flightDto.getCode());
         flight.setCarrier(flightDto.getCarrier());
-        flight.setDeparture(airportService.get(flightDto.getDepartureAirportCode()));
+        flight.setOrigin(airportService.get(flightDto.getOriginAirportCode()));
         flight.setDestination(airportService.get(flightDto.getDestinationAirportCode()));
         flight.setDepartureTime(flightDto.getDepartureTime());
         flight.setDuration(flightDto.getDuration());

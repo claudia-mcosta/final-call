@@ -15,16 +15,16 @@ public class JpaAirportDao extends GenericJpaDao<Airport, String> implements Air
     }
 
     @Override
-    public List<Airport> listFrom(String code) {
+    public List<Airport> listFrom(String origin) {
 
         String jpql = "SELECT a " +
                       "FROM Airport a " +
                       "JOIN Flight b " +
-                      "ON a.code = b.destination " +
-                      "AND b.departure = :departureAirportCode";
+                      "ON b.destination = a.code " +
+                      "AND b.origin = :originAirportCode";
 
         TypedQuery<Airport> query = em.createQuery(jpql, Airport.class);
-        query.setParameter("departureAirportCode", findById(code));
+        query.setParameter("originAirportCode", findById(origin));
 
         return query.getResultList();
 

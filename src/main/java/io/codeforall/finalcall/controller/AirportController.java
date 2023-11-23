@@ -34,6 +34,9 @@ public class AirportController {
 
         List<Airport> airports = airportService.list();
 
+        if (airports.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         List<AirportDto> airportDtos = airportToAirportDto.convert(airports);
 
         return new ResponseEntity<>(airportDtos, HttpStatus.OK);
@@ -43,6 +46,9 @@ public class AirportController {
     public ResponseEntity<List<AirportDto>> listDestinationAirports(@PathVariable String aid) {
 
         List<Airport> airports = airportService.listFrom(aid);
+
+        if (airports.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         List<AirportDto> airportDtos = airportToAirportDto.convert(airports);
 
