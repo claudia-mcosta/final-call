@@ -2,6 +2,12 @@ DROP DATABASE IF EXISTS final_call;
 CREATE DATABASE final_call;
 USE final_call;
 
+CREATE TABLE users (
+    email           VARCHAR(30) NOT NULL,
+    password_hash   VARCHAR(30) NOT NULL,
+    PRIMARY KEY (email)
+);
+
 CREATE TABLE passengers (
     national_id VARCHAR(30),
     first_name  VARCHAR(30) NOT NULL,
@@ -10,6 +16,14 @@ CREATE TABLE passengers (
     phone       VARCHAR(30),
     email       VARCHAR(40) NOT NULL,
     PRIMARY KEY (national_id)
+);
+
+CREATE TABLE user_passenger (
+    user_email            VARCHAR(30) NOT NULL,
+    passenger_national_id VARCHAR(30) NOT NULL,
+    PRIMARY KEY (user_email, passenger_national_id),
+    FOREIGN KEY (user_email) REFERENCES users (email),
+    FOREIGN KEY (passenger_national_id) REFERENCES passengers (national_id)
 );
 
 CREATE TABLE airports (

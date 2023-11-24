@@ -3,6 +3,15 @@ INSERT INTO passengers(national_id, first_name, last_name, birthdate, phone, ema
 VALUES ('123456789EF', 'Cláudia', 'Costa', DATE '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
        ('987654321AB', 'David', 'Cardoso', DATE '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
 
+DELETE FROM users;
+INSERT INTO users(email, password_hash)
+VALUES ('david.cardoso@codeforall.com', '');
+
+DELETE FROM user_passenger;
+INSERT INTO user_passenger(user_email, passenger_national_id)
+VALUES ('david.cardoso@codeforall.com', '987654321AB'),
+       ('david.cardoso@codeforall.com', '123456789EF');
+
 DELETE FROM airports;
 INSERT INTO airports (code, name, city, country, latitude, longitude)
 VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United States', 40.6413, -73.7781),
