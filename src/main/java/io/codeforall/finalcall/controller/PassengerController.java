@@ -3,7 +3,6 @@ package io.codeforall.finalcall.controller;
 import io.codeforall.finalcall.command.PassengerDto;
 import io.codeforall.finalcall.converter.PassengerDtoToPassenger;
 import io.codeforall.finalcall.converter.PassengerToPassengerDto;
-import io.codeforall.finalcall.exceptions.AssociationExistsException;
 import io.codeforall.finalcall.exceptions.PassengerNotFoundException;
 import io.codeforall.finalcall.persistence.model.Passenger;
 import io.codeforall.finalcall.service.PassengerService;
@@ -13,11 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -41,6 +40,19 @@ public class PassengerController {
     @Autowired
     public void setPassengerDtoToPassenger(PassengerDtoToPassenger passengerDtoToPassenger) {
         this.passengerDtoToPassenger = passengerDtoToPassenger;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = {"/", ""})
+    public ResponseEntity<List<PassengerDto>> listPassengers() {
+
+        List<Passenger> passenger = passengerService.list();
+
+        if (passenger.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<PassengerDto> passengerDtos = passengerToPassengerDto.convert(passenger);
+
+        return new ResponseEntity<>(passengerDtos, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
@@ -75,11 +87,7 @@ public class PassengerController {
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
     public ResponseEntity<PassengerDto> editPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, @PathVariable String id) {
 
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        if (passengerDto.getNationalId() != null && !passengerDto.getNationalId().equals(id)) {
+        if (bindingResult.hasErrors() || passengerDto.getNationalId() != null && !passengerDto.getNationalId().equals(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

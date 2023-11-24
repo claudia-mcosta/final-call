@@ -3,6 +3,7 @@ package io.codeforall.finalcall.controller;
 import io.codeforall.finalcall.command.FlightDto;
 import io.codeforall.finalcall.converter.FlightToFlightDto;
 import io.codeforall.finalcall.converter.FlightDtoToFlight;
+import io.codeforall.finalcall.exceptions.FlightNotFoundException;
 import io.codeforall.finalcall.persistence.model.Airport;
 import io.codeforall.finalcall.persistence.model.Flight;
 import io.codeforall.finalcall.service.AirportService;
@@ -82,5 +83,34 @@ public class FlightController {
         headers.setLocation(uriComponents.toUri());
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    public ResponseEntity<FlightDto> editFlight(@Valid @RequestBody FlightDto flightDto, BindingResult bindingResult, @PathVariable String id) {
+
+        if (bindingResult.hasErrors() || flightDto.getCode() != null && !flightDto.getCode().equals(id)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (flightService.get(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        flightDto.setCode(id);
+
+        flightService.save(flightDtoToFlight.convert(flightDto));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    public ResponseEntity<FlightDto> deleteFlight(@PathVariable String id) {
+
+        try {
+            flightService.delete(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (FlightNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

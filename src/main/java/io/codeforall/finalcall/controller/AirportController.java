@@ -42,10 +42,23 @@ public class AirportController {
         return new ResponseEntity<>(airportDtos, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/origin/{aid}")
-    public ResponseEntity<List<AirportDto>> listDestinationAirports(@PathVariable String aid) {
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public ResponseEntity<AirportDto> getAirport(@PathVariable String id) {
 
-        List<Airport> airports = airportService.listFrom(aid);
+        Airport airport = airportService.get(id);
+
+        if (airport == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        AirportDto airportDto = airportToAirportDto.convert(airport);
+
+        return new ResponseEntity<>(airportDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/destinations/{id}")
+    public ResponseEntity<List<AirportDto>> listAirportDestinations(@PathVariable String id) {
+
+        List<Airport> airports = airportService.listFrom(id);
 
         if (airports.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
