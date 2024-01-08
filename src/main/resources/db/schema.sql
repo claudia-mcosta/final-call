@@ -155,8 +155,9 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
        ('DFW', 'Fort Worth International Airport', 'Dallas', 'United States', 32.8998, -97.0403);
 
 INSERT INTO flights(code, carrier, origin_airport_code, destination_airport_code, departure_time, duration)
-VALUES ('BA0499', 'British Airways', 'LIS', 'BER', '2023-12-23 09:30:00', '180'),
-       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', '2023-12-23 08:00:00', '210');
+-- Used TIMESTAMPADD instead of DATE_ADD for dev purposes since DATE_ADD is not compatible with h2
+VALUES ('BA0499', 'British Airways', 'LIS', 'BER', TIMESTAMPADD(DAY, 2, CURRENT_TIMESTAMP()), '180'),
+       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', TIMESTAMPADD(DAY, 1, CURRENT_TIMESTAMP()), '210');
 
 INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
 VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
