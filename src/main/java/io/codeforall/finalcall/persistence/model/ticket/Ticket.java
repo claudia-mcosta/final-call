@@ -67,7 +67,7 @@ public abstract class Ticket {
     }
 
     public void addCabinBag(int quantity){
-        if (cabinBags + quantity <= 2)
+        if (cabinBags + quantity <= 2 && cabinBags > 0)
             cabinBags += quantity;
     }
 
@@ -76,7 +76,7 @@ public abstract class Ticket {
     }
 
     public void addCheckedBag(int quantity){
-        if (checkedBags + quantity <= 2)
+        if (checkedBags + quantity <= 2 && checkedBags > 0)
             checkedBags += quantity;
     }
 

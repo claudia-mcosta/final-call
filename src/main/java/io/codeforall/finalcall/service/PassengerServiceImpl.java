@@ -77,6 +77,7 @@ public class PassengerServiceImpl implements PassengerService {
         Passenger passenger = Optional.ofNullable(passengerDao.findById(nationalId))
                 .orElseThrow(PassengerNotFoundException::new);
 
+        // Need to create ticket
         passenger.addTicket(ticket);
         passengerDao.saveOrUpdate(passenger);
 
