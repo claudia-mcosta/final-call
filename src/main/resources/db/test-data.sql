@@ -115,4 +115,5 @@ VALUES ('BA0499', 'British Airways', 'LIS', 'LHR', '2023-10-23 09:30:00', '180')
 DELETE FROM tickets;
 INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
 VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
-       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1');
+       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1'),
+       ('987654321AB', 'BA0499', 'FIRST', '1570', '1', '2');
