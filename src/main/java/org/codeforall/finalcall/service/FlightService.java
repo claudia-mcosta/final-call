@@ -1,5 +1,6 @@
 package org.codeforall.finalcall.service;
 
+import org.codeforall.finalcall.model.Airport;
 import org.codeforall.finalcall.model.Flight;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface FlightService {
 
     List<Flight> list();
 
-    Flight getNextFrom(String departureAirportCode);
+    Flight getNextFrom(Airport airport);
 
-    Flight getNextFromTo(String departureAirportCode, String destinationAirportCode);
+    Flight getNextFromTo(Airport departure, Airport destination);
 }

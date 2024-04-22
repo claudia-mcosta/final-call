@@ -17,6 +17,20 @@ public class JpaTicketDao extends GenericJpaDao<Ticket, TicketId> implements Tic
         super(Ticket.class);
     }
 
+
+    @Override
+    public Ticket findByFlightAndPassenger(Flight flight, Passenger passenger) {
+
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Ticket> criteriaQuery = criteriaBuilder.createQuery(modelType);
+
+        Root<Ticket> root = criteriaQuery.from(modelType);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("flight"), flight),
+                            criteriaBuilder.equal(root.get("passenger"), passenger));
+
+        return em.createQuery(criteriaQuery).getSingleResult();
+    }
+
     @Override
     public List<Ticket> findByFlight(Flight flight) {
 

@@ -3,8 +3,9 @@ package org.codeforall.finalcall.service;
 import org.codeforall.finalcall.model.Passenger;
 import org.codeforall.finalcall.model.ticket.Ticket;
 import org.codeforall.finalcall.model.ticket.TicketId;
-import org.codeforall.finalcall.dao.*;
 import org.codeforall.finalcall.exceptions.*;
+import org.codeforall.finalcall.persistence.dao.PassengerDao;
+import org.codeforall.finalcall.persistence.dao.TicketDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class PassengerServiceImpl implements PassengerService{
 
     @Override
     public List<Ticket> listTickets(String nationalId) throws PassengerNotFoundException {
+
         Passenger passenger = Optional.ofNullable(passengerDao.findById(nationalId))
                 .orElseThrow(PassengerNotFoundException::new);
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface TicketDao extends Dao<Ticket, TicketId> {
 
+    Ticket findByFlightAndPassenger(Flight flight, Passenger passenger);
     List<Ticket> findByFlight(Flight flight);
 
     List<Ticket> findByPassenger(Passenger passenger);
