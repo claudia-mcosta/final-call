@@ -12,6 +12,8 @@ import java.util.List;
 public class Passenger {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
     @Column(name = "national_id")
     private String nationalId;
     @Column(name = "first_name")
@@ -21,6 +23,9 @@ public class Passenger {
     private Date birthdate;
     private String email;
     private String phone;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @OneToMany(
         cascade = {CascadeType.ALL},
         orphanRemoval = true,
@@ -28,8 +33,14 @@ public class Passenger {
         fetch = FetchType.EAGER
     )
     private List<Ticket> tickets = new ArrayList<>();
-    // Not sure about this list due to db schema
-    // private List<Passenger> travelCompanions;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNationalId() {
         return nationalId;
@@ -79,6 +90,14 @@ public class Passenger {
         this.phone = phone;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -96,12 +115,14 @@ public class Passenger {
     @Override
     public String toString() {
         return "Passenger{" +
-                "nationalId='" + nationalId + '\'' +
+                "id='" + id + '\'' +
+                ", nationalId='" + nationalId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthdate='" + birthdate + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", userId='" + user.getId() + '\'' +
                 ", tickets=" + tickets.size() +
                 '}';
     }

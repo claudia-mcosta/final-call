@@ -39,8 +39,8 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Passenger get(String nationalId) {
-        return passengerDao.findById(nationalId);
+    public Passenger get(Integer id) {
+        return passengerDao.findById(id);
     }
 
     @Transactional
@@ -51,12 +51,12 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Transactional
     @Override
-    public void delete(String nationalId) throws PassengerNotFoundException {
+    public void delete(Integer id) throws PassengerNotFoundException {
 
-        Optional.ofNullable(passengerDao.findById(nationalId))
+        Optional.ofNullable(passengerDao.findById(id))
                 .orElseThrow(PassengerNotFoundException::new);
 
-        passengerDao.delete(nationalId);
+        passengerDao.delete(id);
     }
 
     @Transactional(readOnly = true)
@@ -72,9 +72,9 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Transactional
     @Override
-    public Ticket buyTicket(String nationalId, Ticket ticket) throws PassengerNotFoundException {
+    public Ticket buyTicket(Integer id, Ticket ticket) throws PassengerNotFoundException {
 
-        Passenger passenger = Optional.ofNullable(passengerDao.findById(nationalId))
+        Passenger passenger = Optional.ofNullable(passengerDao.findById(id))
                 .orElseThrow(PassengerNotFoundException::new);
 
         passenger.addTicket(ticket);
@@ -85,9 +85,9 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Transactional
     @Override
-    public void cancelTicket(String nationalId, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException {
+    public void cancelTicket(Integer id, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException {
 
-        Passenger passenger = Optional.ofNullable(passengerDao.findById(nationalId))
+        Passenger passenger = Optional.ofNullable(passengerDao.findById(id))
                 .orElseThrow(PassengerNotFoundException::new);
 
         Flight flight = Optional.ofNullable(flightDao.findById(flightCode))
@@ -96,7 +96,7 @@ public class PassengerServiceImpl implements PassengerService {
         Ticket ticket = Optional.ofNullable(ticketDao.findByFlightAndPassenger(flight, passenger))
                 .orElseThrow(TicketNotFoundException::new);
 
-        if (!ticket.getPassenger().getNationalId().equals(nationalId)) {
+        if (!ticket.getPassenger().getId().equals(id)) {
             throw new TicketNotFoundException();
         }
 

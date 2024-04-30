@@ -11,17 +11,17 @@ import java.util.List;
 
 public interface PassengerService {
 
-    Passenger get(String nationalId);
+    Passenger get(Integer id);
 
     Passenger save(Passenger passenger);
 
-    void delete(String nationalId) throws PassengerNotFoundException;
+    void delete(Integer id) throws PassengerNotFoundException;
 
     List<Passenger> list();
 
     List<Ticket> listTickets(Passenger passenger) throws PassengerNotFoundException;
 
-    Ticket buyTicket(String nationalId, Ticket ticket) throws PassengerNotFoundException;
+    Ticket buyTicket(Integer id, Ticket ticket) throws PassengerNotFoundException;
 
-    void cancelTicket(String nationalId, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
+    void cancelTicket(Integer id, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
 }

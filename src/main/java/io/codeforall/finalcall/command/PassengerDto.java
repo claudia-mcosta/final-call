@@ -7,25 +7,40 @@ import java.util.Date;
 
 public class PassengerDto {
 
+    private Integer id;
+
     @NotNull(message = "National ID or Passport is mandatory.")
     @NotBlank(message = "National ID or Passport is mandatory.")
     private String nationalId;
+
     @NotNull(message = "First name is mandatory.")
     @NotBlank(message = "First name is mandatory.")
     private String firstName;
+
     @NotNull(message = "Last name is mandatory.")
     @NotBlank(message = "Last name is mandatory.")
     private String lastName;
+
     @NotNull(message = "Birthdate is mandatory.")
     @Past(message = "Birthdate should be in the past.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthdate;
+
     @NotNull(message = "Email is mandatory.")
     @NotBlank(message = "Email is mandatory.")
     @Email(message = "Email should be valid.")
     private String email;
+
     @Pattern(regexp = "^\\+?[0-9]*$", message = "Phone number contains invalid characters.")
     private String phone;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNationalId() {
         return nationalId;
@@ -78,7 +93,8 @@ public class PassengerDto {
     @Override
     public String toString() {
         return "PassengerDto{" +
-                "nationalId='" + nationalId + '\'' +
+                "id='" + id + '\'' +
+                ", nationalId='" + nationalId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthdate='" + birthdate + '\'' +

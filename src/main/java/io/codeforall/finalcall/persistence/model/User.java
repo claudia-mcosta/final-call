@@ -8,11 +8,26 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
     private String email;
     @Column(name = "password_hash")
     private String passwordHash;
-    @ManyToMany
-    private List<Passenger> passengerList;
+    @OneToMany(
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            mappedBy = "user",
+            fetch = FetchType.EAGER
+    )
+    private List<Passenger> passengers;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -30,20 +45,27 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public List<Passenger> getPassengerList() {
-        return passengerList;
+    public List<Passenger> getPassengers() {
+        return passengers;
     }
 
-    public void setPassengerList(List<Passenger> passengerList) {
-        this.passengerList = passengerList;
+    public void addPassenger(Passenger passenger) {
+        passengers.add(passenger);
+        passenger.setUser(this);
+    }
+
+    public void removePassenger(Passenger passenger) {
+        passengers.remove(passenger);
+        passenger.setUser(null);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
-                ", passengerList=" + passengerList +
+                ", passengers=" + passengers.size() +
                 '}';
     }
 }
