@@ -1,38 +1,38 @@
-package io.codeforall.finalcall.persistence.model;
+package io.codeforall.finalcall.command;
 
-import io.codeforall.finalcall.persistence.model.ticket.Ticket;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.constraints.*;
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(name = "passengers")
-public class Passenger {
+public class PassengerDto {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "national_id")
+
+    @NotNull(message = "National ID or Passport is mandatory.")
+    @NotBlank(message = "National ID or Passport is mandatory.")
     private String nationalId;
-    @Column(name = "first_name")
+
+    @NotNull(message = "First name is mandatory.")
+    @NotBlank(message = "First name is mandatory.")
     private String firstName;
-    @Column(name = "last_name")
+
+    @NotNull(message = "Last name is mandatory.")
+    @NotBlank(message = "Last name is mandatory.")
     private String lastName;
+
+    @NotNull(message = "Birthdate is mandatory.")
+    @Past(message = "Birthdate should be in the past.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthdate;
+
+    @NotNull(message = "Email is mandatory.")
+    @NotBlank(message = "Email is mandatory.")
+    @Email(message = "Email should be valid.")
     private String email;
+
+    @Pattern(regexp = "^\\+?[0-9]*$", message = "Phone number contains invalid characters.")
     private String phone;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @OneToMany(
-        cascade = {CascadeType.ALL},
-        orphanRemoval = true,
-        mappedBy = "passenger",
-        fetch = FetchType.EAGER
-    )
-    private List<Ticket> tickets = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -90,31 +90,9 @@ public class Passenger {
         this.phone = phone;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void addTicket(Ticket ticket) {
-        tickets.add(ticket);
-        ticket.setPassenger(this);
-    }
-
-    public void removeTicket(Ticket ticket) {
-        tickets.remove(ticket);
-        ticket.setPassenger(null);
-    }
-
     @Override
     public String toString() {
-        return "Passenger{" +
+        return "PassengerDto{" +
                 "id='" + id + '\'' +
                 ", nationalId='" + nationalId + '\'' +
                 ", firstName='" + firstName + '\'' +
@@ -122,8 +100,6 @@ public class Passenger {
                 ", birthdate='" + birthdate + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", userId='" + user.getId() + '\'' +
-                ", tickets=" + tickets.size() +
                 '}';
     }
 }

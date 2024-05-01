@@ -1,7 +1,13 @@
+DELETE FROM users;
+INSERT INTO users(email, password_hash)
+VALUES ('claudia.costa@codeforall.com', ''),
+       ('david.cardoso@codeforall.com', '');
+
 DELETE FROM passengers;
-INSERT INTO passengers(national_id, first_name, last_name, dob, phone, email)
-VALUES ('123456789EF', 'Cláudia', 'Costa', '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
-       ('987654321AB', 'David', 'Cardoso', '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
+INSERT INTO passengers(national_id, first_name, last_name, birthdate, phone, email, user_id)
+VALUES ('123456789EF', 'Cláudia', 'Costa', DATE '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com', '2'),
+       ('987654321AB', 'David', 'Cardoso', DATE '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com', '1'),
+       ('543219876CD', 'Bernard', 'Pineiro', DATE '2001-01-01', '+351912345678', 'bernard.pineiro@codeforall.com', '2');
 
 DELETE FROM airports;
 INSERT INTO airports (code, name, city, country, latitude, longitude)
@@ -108,12 +114,12 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
        ('DFW', 'Fort Worth International Airport', 'Dallas', 'United States', 32.8998, -97.0403);
 
 DELETE FROM flights;
-INSERT INTO flights(code, carrier, departure_airport_code, destination_airport_code, departure_time, duration)
-VALUES ('BA0499', 'British Airways', 'LIS', 'BER', '2023-12-23 09:30:00', '180'),
-       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', '2023-12-23 08:00:00', '210');
+INSERT INTO flights(code, carrier, origin_airport_code, destination_airport_code, departure_time, duration)
+VALUES ('BA0499', 'British Airways', 'LIS', 'BER', TIMESTAMPADD(DAY, 2, CURRENT_TIMESTAMP()), '180'),
+       ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', TIMESTAMPADD(DAY, 1, CURRENT_TIMESTAMP()), '210');
 
 DELETE FROM tickets;
-INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
-VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
-       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1'),
-       ('987654321AB', 'BA0499', 'FIRST', '1570', '1', '2');
+INSERT INTO tickets(passenger_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
+VALUES (1, 'BA0499', 'ECONOMY', '393', '1', '0'),
+       (2, 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1'),
+       (2, 'BA0499', 'FIRST', '1570', '1', '2');

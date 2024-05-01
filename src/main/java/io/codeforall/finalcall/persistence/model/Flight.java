@@ -11,14 +11,14 @@ public class Flight {
     private String code;
     private String carrier;
     @ManyToOne
-    @JoinColumn(name = "departure_airport_code")
-    private Airport departure;
+    @JoinColumn(name = "origin_airport_code")
+    private Airport origin;
     @ManyToOne
     @JoinColumn(name = "destination_airport_code")
     private Airport destination;
     @Column(name = "departure_time")
     private Date departureTime;
-    private String duration;
+    private int duration;
 
     public String getCode() {
         return code;
@@ -36,12 +36,12 @@ public class Flight {
         this.carrier = carrier;
     }
 
-    public Airport getDeparture() {
-        return departure;
+    public Airport getOrigin() {
+        return origin;
     }
 
-    public void setDeparture(Airport departure) {
-        this.departure = departure;
+    public void setOrigin(Airport origin) {
+        this.origin = origin;
     }
 
     public Airport getDestination() {
@@ -60,11 +60,11 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -73,7 +73,7 @@ public class Flight {
         return "Flight{" +
                 "code='" + code + '\'' +
                 ", carrier='" + carrier + '\'' +
-                ", departure=" + departure.getCode() +
+                ", origin=" + origin.getCode() +
                 ", destination=" + destination.getCode() +
                 ", departureTime='" + departureTime + '\'' +
                 ", duration='" + duration + '\'' +

@@ -8,9 +8,9 @@ public interface TicketService {
 
     Ticket get(TicketId ticketId);
 
-    String checkIn(String nationalId, String flightCode, String seat) throws FlightNotFoundException, PassengerNotFoundException, SeatUnavailableException, TicketNotFoundException;
+    String checkIn(Integer pid, String flightCode, String seat) throws FlightNotFoundException, PassengerNotFoundException, SeatUnavailableException, TicketNotFoundException;
 
-    void addCabinBag(String nationalId, String flightCode, int quantity) throws ExcessBaggageException, FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
+    void addCabinBag(Integer pid, String flightCode, int quantity) throws ExcessBaggageException, FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
 
-    void addCheckedBag(String nationalId, String flightCode, int quantity) throws ExcessBaggageException, FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
+    void addCheckedBag(Integer pid, String flightCode, int quantity) throws ExcessBaggageException, FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
 }
