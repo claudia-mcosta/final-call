@@ -1,6 +1,5 @@
 package io.codeforall.finalcall.service;
 
-import io.codeforall.finalcall.exceptions.AssociationExistsException;
 import io.codeforall.finalcall.exceptions.FlightNotFoundException;
 import io.codeforall.finalcall.exceptions.PassengerNotFoundException;
 import io.codeforall.finalcall.exceptions.TicketNotFoundException;

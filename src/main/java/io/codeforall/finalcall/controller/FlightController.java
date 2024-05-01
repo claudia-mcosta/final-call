@@ -6,6 +6,7 @@ import io.codeforall.finalcall.converter.FlightDtoToFlight;
 import io.codeforall.finalcall.exceptions.FlightNotFoundException;
 import io.codeforall.finalcall.persistence.model.Airport;
 import io.codeforall.finalcall.persistence.model.Flight;
+import io.codeforall.finalcall.persistence.model.Passenger;
 import io.codeforall.finalcall.service.AirportService;
 import io.codeforall.finalcall.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,20 @@ public class FlightController {
         this.flightDtoToFlight = flightDtoToFlight;
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public ResponseEntity<FlightDto> showFlight(@PathVariable String id) {
+
+        Flight flight = flightService.get(id);
+
+        if (flight == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(flightToFlightDto.convert(flight), HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/select")
-    public ResponseEntity<FlightDto> getNextFlight(@RequestParam String origin, @RequestParam(defaultValue = "ANY") String destination) {
+    public ResponseEntity<FlightDto> showNextFlight(@RequestParam String origin, @RequestParam(defaultValue = "ANY") String destination) {
 
         if (origin.equals(destination))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -71,7 +84,7 @@ public class FlightController {
     @RequestMapping(method = RequestMethod.POST, path = {"/", ""})
     public ResponseEntity<?> addFlight(@Valid @RequestBody FlightDto flightDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
-        if (bindingResult.hasErrors() || flightDto.getOriginAirportCode().equals(flightDto.getDestinationAirportCode()) || flightService.get(flightDto.getCode()) != null) {
+        if (bindingResult.hasErrors() || flightService.get(flightDto.getCode()) != null || flightDto.getOriginAirportCode().equals(flightDto.getDestinationAirportCode())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

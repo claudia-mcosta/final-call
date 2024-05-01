@@ -43,7 +43,7 @@ public class AirportController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public ResponseEntity<AirportDto> getAirport(@PathVariable String id) {
+    public ResponseEntity<AirportDto> showAirport(@PathVariable String id) {
 
         Airport airport = airportService.get(id);
 
@@ -55,7 +55,7 @@ public class AirportController {
         return new ResponseEntity<>(airportDto, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/destinations/{id}")
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}/destinations")
     public ResponseEntity<List<AirportDto>> listAirportDestinations(@PathVariable String id) {
 
         List<Airport> airports = airportService.listFrom(id);
