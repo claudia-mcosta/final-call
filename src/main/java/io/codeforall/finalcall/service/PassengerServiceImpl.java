@@ -19,23 +19,11 @@ import java.util.Optional;
 @Service
 public class PassengerServiceImpl implements PassengerService {
 
-    private FlightDao flightDao;
     private PassengerDao passengerDao;
-    private TicketDao ticketDao;
-
-    @Autowired
-    public void setFlightDao(FlightDao flightDao) {
-        this.flightDao = flightDao;
-    }
 
     @Autowired
     public void setPassengerDao(PassengerDao passengerDao) {
         this.passengerDao = passengerDao;
-    }
-
-    @Autowired
-    public void setTicketDao(TicketDao ticketDao) {
-        this.ticketDao = ticketDao;
     }
 
     @Override
@@ -57,50 +45,5 @@ public class PassengerServiceImpl implements PassengerService {
                 .orElseThrow(PassengerNotFoundException::new);
 
         passengerDao.delete(id);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Passenger> list() {
-        return passengerDao.findAll();
-    }
-
-    @Override
-    public List<Ticket> listTickets(Passenger passenger) {
-        return passenger.getTickets();
-    }
-
-    @Transactional
-    @Override
-    public Ticket buyTicket(Integer id, Ticket ticket) throws PassengerNotFoundException {
-
-        Passenger passenger = Optional.ofNullable(passengerDao.findById(id))
-                .orElseThrow(PassengerNotFoundException::new);
-
-        passenger.addTicket(ticket);
-        passengerDao.saveOrUpdate(passenger);
-
-        return passenger.getTickets().get(passenger.getTickets().size() - 1);
-    }
-
-    @Transactional
-    @Override
-    public void cancelTicket(Integer id, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException {
-
-        Passenger passenger = Optional.ofNullable(passengerDao.findById(id))
-                .orElseThrow(PassengerNotFoundException::new);
-
-        Flight flight = Optional.ofNullable(flightDao.findById(flightCode))
-                .orElseThrow(FlightNotFoundException::new);
-
-        Ticket ticket = Optional.ofNullable(ticketDao.findByFlightAndPassenger(flight, passenger))
-                .orElseThrow(TicketNotFoundException::new);
-
-        if (!ticket.getPassenger().getId().equals(id)) {
-            throw new TicketNotFoundException();
-        }
-
-        passenger.removeTicket(ticket);
-        passengerDao.saveOrUpdate(passenger);
     }
 }

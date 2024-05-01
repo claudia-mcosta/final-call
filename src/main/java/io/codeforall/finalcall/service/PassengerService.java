@@ -16,12 +16,4 @@ public interface PassengerService {
     Passenger save(Passenger passenger);
 
     void delete(Integer id) throws PassengerNotFoundException;
-
-    List<Passenger> list();
-
-    List<Ticket> listTickets(Passenger passenger) throws PassengerNotFoundException;
-
-    Ticket buyTicket(Integer id, Ticket ticket) throws PassengerNotFoundException;
-
-    void cancelTicket(Integer id, String flightCode) throws FlightNotFoundException, PassengerNotFoundException, TicketNotFoundException;
 }

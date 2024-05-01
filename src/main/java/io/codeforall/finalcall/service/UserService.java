@@ -22,5 +22,4 @@ public interface UserService {
     Passenger addPassenger(Integer id, Passenger passenger) throws UserNotFoundException;
 
     void deletePassenger(Integer id, Integer pid) throws UserNotFoundException, PassengerNotFoundException;
-
 }
