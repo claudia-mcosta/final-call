@@ -13,19 +13,24 @@ public class FlightDto {
     @NotNull(message = "Flight code is mandatory")
     @Size(min = 6, max = 6, message = "Flight code should have 6 characters.")
     private String code;
+
     @NotNull(message = "Carrier is mandatory.")
     @NotBlank(message = "Carrier is mandatory.")
     private String carrier;
+
     @NotNull(message = "Origin airport IATA is mandatory.")
     @Size(min = 3, max = 3, message = "Origin airport IATA should have 3 characters.")
     private String originAirportCode;
+
     @NotNull(message = "Destination airport IATA is mandatory.")
     @Size(min = 3, max = 3, message = "Destination airport IATA should have 3 characters.")
     private String destinationAirportCode;
+
     @NotNull(message = "Departure time is mandatory.")
     @Future(message = "Departure time should be in the future.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm")
     private Date departureTime;
+
     @NotNull(message = "Flight duration is mandatory.")
     private int duration;
 

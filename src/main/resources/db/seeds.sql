@@ -1,56 +1,15 @@
-DROP DATABASE IF EXISTS final_call;
-CREATE DATABASE final_call;
-USE final_call;
+DELETE FROM users;
+INSERT INTO users(email, password_hash)
+VALUES ('claudia.costa@codeforall.com', ''),
+       ('david.cardoso@codeforall.com', '');
 
-CREATE TABLE passengers (
-    national_id VARCHAR(30),
-    first_name  VARCHAR(30) NOT NULL,
-    last_name   VARCHAR(30) NOT NULL,
-    birthdate   DATE        NOT NULL,
-    phone       VARCHAR(30),
-    email       VARCHAR(40) NOT NULL,
-    PRIMARY KEY (national_id)
-);
+DELETE FROM passengers;
+INSERT INTO passengers(national_id, first_name, last_name, birthdate, phone, email, user_id)
+VALUES ('123456789EF', 'Cláudia', 'Costa', DATE '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com', '2'),
+       ('987654321AB', 'David', 'Cardoso', DATE '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com', '1'),
+       ('543219876CD', 'Bernard', 'Pineiro', DATE '2001-01-01', '+351912345678', 'bernard.pineiro@codeforall.com', '2');
 
-CREATE TABLE airports (
-    code      VARCHAR(30),
-    name      VARCHAR(60) NOT NULL,
-    city      VARCHAR(30) NOT NULL,
-    country   VARCHAR(30) NOT NULL,
-    latitude  DOUBLE      NOT NULL,
-    longitude DOUBLE      NOT NULL,
-    PRIMARY KEY (code)
-);
-
-CREATE TABLE flights (
-    code                     VARCHAR(30),
-    carrier                  VARCHAR(30) NOT NULL,
-    origin_airport_code      VARCHAR(30) NOT NULL,
-    destination_airport_code VARCHAR(30) NOT NULL,
-    departure_time           DATETIME    NOT NULL,
-    duration                 INT         NOT NULL,
-    PRIMARY KEY (code),
-    FOREIGN KEY (origin_airport_code) REFERENCES airports (code),
-    FOREIGN KEY (destination_airport_code) REFERENCES airports (code)
-);
-
-CREATE TABLE tickets (
-    passenger_national_id VARCHAR(30),
-    flight_code           VARCHAR(30),
-    cabin_class           VARCHAR(30) NOT NULL,
-    price                 DOUBLE      NOT NULL,
-    seat                  VARCHAR(30),
-    cabin_bags            INT         NOT NULL,
-    checked_bags          INT         NOT NULL,
-    PRIMARY KEY (passenger_national_id, flight_code),
-    FOREIGN KEY (passenger_national_id) REFERENCES passengers (national_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (flight_code) REFERENCES flights (code)
-);
-
-INSERT INTO passengers(national_id, first_name, last_name, birthdate, phone, email)
-VALUES ('123456789EF', 'Cláudia', 'Costa', '2001-01-01', '+351912345678', 'claudia.costa@codeforall.com'),
-       ('987654321AB', 'David', 'Cardoso', '2001-01-01', '+351912345678', 'david.cardoso@codeforall.com');
-
+DELETE FROM airports;
 INSERT INTO airports (code, name, city, country, latitude, longitude)
 VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United States', 40.6413, -73.7781),
        ('LHR', 'London Heathrow Airport', 'London', 'United Kingdom', 51.4694, -0.4543),
@@ -154,14 +113,14 @@ VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'United Stat
        ('PER', 'Perth Airport', 'Perth', 'Australia', -31.9385, 115.9672),
        ('DFW', 'Fort Worth International Airport', 'Dallas', 'United States', 32.8998, -97.0403);
 
+DELETE FROM flights;
 INSERT INTO flights(code, carrier, origin_airport_code, destination_airport_code, departure_time, duration)
 -- Used TIMESTAMPADD instead of DATE_ADD for dev purposes since DATE_ADD is not compatible with h2
 VALUES ('BA0499', 'British Airways', 'LIS', 'BER', TIMESTAMPADD(DAY, 2, CURRENT_TIMESTAMP()), '180'),
        ('TP0538', 'TAP Air Portugal', 'LIS', 'LHR', TIMESTAMPADD(DAY, 1, CURRENT_TIMESTAMP()), '210');
 
-INSERT INTO tickets(passenger_national_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
-VALUES ('123456789EF', 'BA0499', 'ECONOMY', '393', '1', '0'),
-       ('987654321AB', 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1'),
-       ('987654321AB', 'BA0499', 'FIRST', '1570', '1', '2');
-
-
+DELETE FROM tickets;
+INSERT INTO tickets(passenger_id, flight_code, cabin_class, price, cabin_bags, checked_bags)
+VALUES (1, 'BA0499', 'ECONOMY', '393', '1', '0'),
+       (2, 'TP0538', 'PREMIUM_ECONOMY', '430', '1', '1'),
+       (2, 'BA0499', 'FIRST', '1570', '1', '2');

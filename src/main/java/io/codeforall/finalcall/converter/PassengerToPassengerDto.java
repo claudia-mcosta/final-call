@@ -23,6 +23,7 @@ public class PassengerToPassengerDto {
 
         PassengerDto passengerDto = new PassengerDto();
 
+        passengerDto.setId(passenger.getId());
         passengerDto.setNationalId(passenger.getNationalId());
         passengerDto.setFirstName(passenger.getFirstName());
         passengerDto.setLastName(passenger.getLastName());

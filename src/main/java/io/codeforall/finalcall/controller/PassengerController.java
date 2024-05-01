@@ -3,9 +3,12 @@ package io.codeforall.finalcall.controller;
 import io.codeforall.finalcall.command.PassengerDto;
 import io.codeforall.finalcall.converter.PassengerDtoToPassenger;
 import io.codeforall.finalcall.converter.PassengerToPassengerDto;
-import io.codeforall.finalcall.exceptions.PassengerNotFoundException;
+import io.codeforall.finalcall.exceptions.FinalCallException;
+import io.codeforall.finalcall.exceptions.UserNotFoundException;
 import io.codeforall.finalcall.persistence.model.Passenger;
+import io.codeforall.finalcall.persistence.model.User;
 import io.codeforall.finalcall.service.PassengerService;
+import io.codeforall.finalcall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,16 +23,22 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/passenger")
+@RequestMapping("/api/user")
 public class PassengerController {
 
     private PassengerService passengerService;
+    private UserService userService;
     private PassengerToPassengerDto passengerToPassengerDto;
     private PassengerDtoToPassenger passengerDtoToPassenger;
 
     @Autowired
     public void setPassengerService(PassengerService passengerService) {
         this.passengerService = passengerService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Autowired
@@ -42,73 +51,90 @@ public class PassengerController {
         this.passengerDtoToPassenger = passengerDtoToPassenger;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"/", ""})
-    public ResponseEntity<List<PassengerDto>> listPassengers() {
+    // If passenger has more than 1 ticket, they show up more than once because of Hibernate's outer join. Possible solution: use Set instead of List in model.
+    @RequestMapping(method = RequestMethod.GET, path = {"/{uid}/passenger"})
+    public ResponseEntity<List<PassengerDto>> listPassengers(@PathVariable Integer uid) {
 
-        List<Passenger> passenger = passengerService.list();
+        User user = userService.get(uid);
 
-        if (passenger.isEmpty())
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        List<PassengerDto> passengerDtos = passengerToPassengerDto.convert(passenger);
+        List<Passenger> passengers = userService.listPassengers(user);
+
+        if (passengers.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<PassengerDto> passengerDtos = passengerToPassengerDto.convert(passengers);
 
         return new ResponseEntity<>(passengerDtos, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public ResponseEntity<PassengerDto> showPassenger(@PathVariable String id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/{uid}/passenger/{id}")
+    public ResponseEntity<PassengerDto> showPassenger(@PathVariable Integer id, @PathVariable Integer uid) {
 
         Passenger passenger = passengerService.get(id);
 
-        if (passenger == null) {
+        if (passenger == null || !passenger.getUser().getId().equals(uid)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(passengerToPassengerDto.convert(passenger), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = {"/", ""})
-    public ResponseEntity<?> addPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    @RequestMapping(method = RequestMethod.POST, path = {"/{uid}/passenger"})
+    public ResponseEntity<?> addPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder, @PathVariable Integer uid) {
 
-        if (bindingResult.hasErrors() || passengerService.get(passengerDto.getNationalId()) != null) {
+        if (bindingResult.hasErrors() || passengerService.get(passengerDto.getId()) != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Passenger savedPassenger = passengerService.save(passengerDtoToPassenger.convert(passengerDto));
+        try {
 
-        UriComponents uriComponents = uriComponentsBuilder.path("/api/passenger/" + savedPassenger.getNationalId()).build();
+            Passenger savedPassenger = userService.addPassenger(uid, passengerDtoToPassenger.convert(passengerDto));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponents.toUri());
+            UriComponents uriComponents = uriComponentsBuilder.path("/api/passenger/" + savedPassenger.getId()).build();
 
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(uriComponents.toUri());
+
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    public ResponseEntity<PassengerDto> editPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, @PathVariable String id) {
+    @RequestMapping(method = RequestMethod.PUT, path = "/{uid}/passenger/{id}")
+    public ResponseEntity<PassengerDto> editPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, @PathVariable Integer uid, @PathVariable Integer id) {
 
-        if (bindingResult.hasErrors() || passengerDto.getNationalId() != null && !passengerDto.getNationalId().equals(id)) {
+        if (bindingResult.hasErrors() || passengerDto.getId() != null && !passengerDto.getId().equals(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if (passengerService.get(id) == null) {
+        Passenger passenger = passengerService.get(id);
+
+        if (passengerService.get(id) == null || !passenger.getUser().getId().equals(uid)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        passengerDto.setNationalId(id);
+        passengerDto.setId(id);
 
         passengerService.save(passengerDtoToPassenger.convert(passengerDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public ResponseEntity<PassengerDto> deletePassenger(@PathVariable String id) {
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{uid}/passenger/{id}")
+    public ResponseEntity<PassengerDto> deletePassenger(@PathVariable Integer uid, @PathVariable Integer id) {
 
         try {
-            passengerService.delete(id);
+
+            userService.deletePassenger(uid, id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        } catch (PassengerNotFoundException e) {
+        } catch (FinalCallException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
