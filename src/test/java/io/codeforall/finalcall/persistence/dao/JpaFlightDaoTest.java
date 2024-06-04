@@ -120,7 +120,7 @@ public class JpaFlightDaoTest {
         when(typedQuery.setMaxResults(1)).thenReturn(typedQuery);
         when(typedQuery.getSingleResult()).thenReturn(mockFlight);
 
-        Flight flight = flightDao.getNextFrom(mockAirport);
+        Flight flight = flightDao.getNextFlight(mockAirport);
 
         verify(typedQuery, times(1)).setMaxResults(1);
         verify(typedQuery, times(1)).getSingleResult();

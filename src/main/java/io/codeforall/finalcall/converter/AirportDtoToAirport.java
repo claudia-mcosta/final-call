@@ -2,6 +2,7 @@ package io.codeforall.finalcall.converter;
 
 import io.codeforall.finalcall.command.AirportDto;
 import io.codeforall.finalcall.persistence.model.Airport;
+import io.codeforall.finalcall.persistence.model.Flight;
 import io.codeforall.finalcall.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class AirportDtoToAirport {
 
     public Airport convert(AirportDto airportDto) {
 
-        Airport airport = airportService.get(airportDto.getCode());
+        Airport airport = airportDto.getCode() != null ? airportService.get(airportDto.getCode()) : new Airport();
 
         airport.setCode(airportDto.getCode());
         airport.setName(airportDto.getName());
