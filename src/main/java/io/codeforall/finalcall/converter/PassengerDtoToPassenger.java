@@ -21,9 +21,6 @@ public class PassengerDtoToPassenger {
 
         Passenger passenger = (passengerDto.getId() != null ? passengerService.get(passengerDto.getId()) : new Passenger());
 
-        if(passenger == null)
-            passenger = new Passenger();
-
         passenger.setNationalId(passengerDto.getNationalId());
         passenger.setFirstName(passengerDto.getFirstName());
         passenger.setLastName(passengerDto.getLastName());

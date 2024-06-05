@@ -1,8 +1,6 @@
 package io.codeforall.finalcall.converter;
 
-import io.codeforall.finalcall.command.AirportDto;
 import io.codeforall.finalcall.command.PassengerDto;
-import io.codeforall.finalcall.persistence.model.Airport;
 import io.codeforall.finalcall.persistence.model.Passenger;
 import org.springframework.stereotype.Component;
 

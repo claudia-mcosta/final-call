@@ -38,6 +38,7 @@ public abstract class GenericJpaDao<T, U> implements Dao<T, U> {
 
     @Override
     public T findById(U id) {
+        // return em.createQuery("SELECT u FROM " + modelType.getSimpleName() + " AS u JOIN FETCH u.passengers WHERE u.id=:id", modelType).setParameter("id", id).getSingleResult();
         return em.find(modelType, id);
     }
 
@@ -50,5 +51,4 @@ public abstract class GenericJpaDao<T, U> implements Dao<T, U> {
     public void delete(U id) {
         em.remove(em.find(modelType, id));
     }
-
 }
