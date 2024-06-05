@@ -4,6 +4,7 @@ import io.codeforall.finalcall.exceptions.PassengerNotFoundException;
 import io.codeforall.finalcall.exceptions.UserNotFoundException;
 import io.codeforall.finalcall.persistence.dao.PassengerDao;
 import io.codeforall.finalcall.persistence.dao.UserDao;
+import io.codeforall.finalcall.persistence.model.Booking;
 import io.codeforall.finalcall.persistence.model.Passenger;
 import io.codeforall.finalcall.persistence.model.User;
 
@@ -92,5 +93,19 @@ public class UserServiceImpl implements UserService {
 
         user.removePassenger(passenger);
         userDao.saveOrUpdate(user);
+    }
+
+    @Transactional
+    @Override
+    public Booking addBooking(Integer id, Booking booking) throws UserNotFoundException {
+
+
+        User user = Optional.ofNullable(userDao.findById(id))
+                    .orElseThrow(UserNotFoundException::new);
+
+        user.addBooking(booking);
+        userDao.saveOrUpdate(user);
+
+        return user.getBookings().get(user.getBookings().size() - 1);
     }
 }

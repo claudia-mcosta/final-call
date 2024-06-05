@@ -17,9 +17,16 @@ public class User {
             cascade = {CascadeType.ALL},
             orphanRemoval = true,
             mappedBy = "user",
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     private List<Passenger> passengers;
+    @OneToMany(
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            mappedBy = "user",
+            fetch = FetchType.LAZY
+    )
+    private List<Booking> bookings;
 
     public Integer getId() {
         return id;
@@ -59,13 +66,28 @@ public class User {
         passenger.setUser(null);
     }
 
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+        booking.setUser(this);
+    }
+
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+        booking.setUser(null);
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
-                ", passengers=" + passengers.size() +
+                ", passengers=" + passengers.size() + '\'' +
+                ", bookings=" + bookings.size() +
                 '}';
     }
 }

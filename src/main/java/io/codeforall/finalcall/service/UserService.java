@@ -2,6 +2,7 @@ package io.codeforall.finalcall.service;
 
 import io.codeforall.finalcall.exceptions.PassengerNotFoundException;
 import io.codeforall.finalcall.exceptions.UserNotFoundException;
+import io.codeforall.finalcall.persistence.model.Booking;
 import io.codeforall.finalcall.persistence.model.Passenger;
 import io.codeforall.finalcall.persistence.model.User;
 
@@ -22,4 +23,6 @@ public interface UserService {
     Passenger addPassenger(Integer id, Passenger passenger) throws UserNotFoundException;
 
     void deletePassenger(Integer id, Integer pid) throws UserNotFoundException, PassengerNotFoundException;
+
+    Booking addBooking(Integer id, Booking booking) throws UserNotFoundException;
 }

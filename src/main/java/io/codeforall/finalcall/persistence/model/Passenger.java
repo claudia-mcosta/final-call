@@ -30,7 +30,7 @@ public class Passenger {
         cascade = {CascadeType.ALL},
         orphanRemoval = true,
         mappedBy = "passenger",
-        fetch = FetchType.EAGER
+        fetch = FetchType.LAZY
     )
     private List<Ticket> tickets = new ArrayList<>();
 

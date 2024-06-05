@@ -1,5 +1,6 @@
 package io.codeforall.finalcall.persistence.model.ticket;
 
+import io.codeforall.finalcall.persistence.model.Booking;
 import io.codeforall.finalcall.persistence.model.Flight;
 import io.codeforall.finalcall.persistence.model.Passenger;
 
@@ -12,17 +13,16 @@ import javax.persistence.*;
 @IdClass(TicketId.class)
 public abstract class Ticket {
 
-    // TODO: Couldn't make Embbedable work with the mappedBy in Passenger class. Check what is best in this situation --> https://jpa-buddy.com/blog/the-ultimate-guide-on-composite-ids-in-jpa-entities/
     @Id
     @ManyToOne
     protected Flight flight;
     @Id
     @ManyToOne
     protected Passenger passenger;
+    @ManyToOne
+    protected Booking booking;
     protected double price;
     protected String seat;
-
-    // TODO: Check if decorator pattern applies here if each subclass is created with a num of cabinbags + checkinbags included that can be incremented. Seats are affected also?
     @Column(name = "cabin_bags")
     protected int cabinBags;
     @Column(name = "checked_bags")
@@ -43,6 +43,14 @@ public abstract class Ticket {
 
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     public double getPrice() {

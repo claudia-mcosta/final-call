@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
@@ -52,6 +53,7 @@ public class PassengerController {
     }
 
     // If passenger has more than 1 ticket, they show up more than once because of Hibernate's outer join. Possible solution: use Set instead of List in model.
+    @Transactional
     @RequestMapping(method = RequestMethod.GET, path = {"/{uid}/passenger"})
     public ResponseEntity<List<PassengerDto>> listPassengers(@PathVariable Integer uid) {
 
@@ -87,7 +89,7 @@ public class PassengerController {
     @RequestMapping(method = RequestMethod.POST, path = {"/{uid}/passenger"})
     public ResponseEntity<?> addPassenger(@Valid @RequestBody PassengerDto passengerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder, @PathVariable Integer uid) {
 
-        if (bindingResult.hasErrors() || passengerService.get(passengerDto.getId()) != null) {
+        if (bindingResult.hasErrors() || passengerDto.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -95,7 +97,7 @@ public class PassengerController {
 
             Passenger savedPassenger = userService.addPassenger(uid, passengerDtoToPassenger.convert(passengerDto));
 
-            UriComponents uriComponents = uriComponentsBuilder.path("/api/passenger/" + savedPassenger.getId()).build();
+            UriComponents uriComponents = uriComponentsBuilder.path("/api/" + uid + "/passenger/" + savedPassenger.getId()).build();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(uriComponents.toUri());

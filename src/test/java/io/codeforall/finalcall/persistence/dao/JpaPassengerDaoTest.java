@@ -52,7 +52,7 @@ public class JpaPassengerDaoTest {
     @Test
     public void testFindById() {
 
-        String id = "123456789";
+        Integer id = 1;
         Passenger mockPassenger = mock(Passenger.class);
 
         when(em.find(Passenger.class, id)).thenReturn(mockPassenger);
@@ -79,7 +79,7 @@ public class JpaPassengerDaoTest {
     @Test
     public void testDelete() {
 
-        String id = "123456789";
+        Integer id = 1;
         Passenger mockPassenger = mock(Passenger.class);
 
         when(em.find(Passenger.class, id)).thenReturn(mockPassenger);

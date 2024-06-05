@@ -9,6 +9,8 @@ public class TicketDto {
     private String seat;
     private int cabinBags;
     private int checkedBags;
+    private FlightDto flight;
+    private PassengerDto passenger;
 
     public CabinClass getCabinClass() {
         return cabinClass;
@@ -48,5 +50,21 @@ public class TicketDto {
 
     public void setCheckedBags(int checkedBags) {
         this.checkedBags = checkedBags;
+    }
+
+    public FlightDto getFlight() {
+        return flight;
+    }
+
+    public void setFlight(FlightDto flight) {
+        this.flight = flight;
+    }
+
+    public PassengerDto getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(PassengerDto passenger) {
+        this.passenger = passenger;
     }
 }
