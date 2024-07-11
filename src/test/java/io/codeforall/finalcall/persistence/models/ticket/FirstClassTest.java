@@ -2,7 +2,6 @@ package io.codeforall.finalcall.persistence.models.ticket;
 
 import io.codeforall.finalcall.persistence.model.ticket.CabinClass;
 import io.codeforall.finalcall.persistence.model.ticket.FirstClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class FirstClassTest {
 
     @Test
     public void testCabinClass() {
-        Assert.assertEquals(CabinClass.FIRST, ticket.getCabinClass());
+        assertEquals(CabinClass.FIRST, ticket.getCabinClass());
     }
 
     @Test
