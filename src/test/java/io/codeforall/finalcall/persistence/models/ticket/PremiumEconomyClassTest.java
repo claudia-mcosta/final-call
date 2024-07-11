@@ -2,7 +2,6 @@ package io.codeforall.finalcall.persistence.models.ticket;
 
 import io.codeforall.finalcall.persistence.model.ticket.CabinClass;
 import io.codeforall.finalcall.persistence.model.ticket.PremiumEconomyClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class PremiumEconomyClassTest {
 
     @Test
     public void testCabinClass() {
-        Assert.assertEquals(CabinClass.PREMIUM_ECONOMY, ticket.getCabinClass());
+        assertEquals(CabinClass.PREMIUM_ECONOMY, ticket.getCabinClass());
     }
 
     @Test

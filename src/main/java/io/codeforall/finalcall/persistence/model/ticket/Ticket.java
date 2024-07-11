@@ -13,6 +13,9 @@ import javax.persistence.*;
 @IdClass(TicketId.class)
 public abstract class Ticket {
 
+    public static final int MAX_CABIN_BAGS = 2;
+    public static final int MAX_CHECKED_BAGS = 2;
+
     @Id
     @ManyToOne
     protected Flight flight;
@@ -75,7 +78,7 @@ public abstract class Ticket {
     }
 
     public void addCabinBag(int quantity){
-        if (cabinBags + quantity <= 2 && cabinBags > 0)
+        if (quantity > 0 && cabinBags + quantity <= MAX_CABIN_BAGS)
             cabinBags += quantity;
     }
 
@@ -84,7 +87,7 @@ public abstract class Ticket {
     }
 
     public void addCheckedBag(int quantity){
-        if (checkedBags + quantity <= 2 && checkedBags > 0)
+        if (quantity > 0 && checkedBags + quantity <= MAX_CHECKED_BAGS)
             checkedBags += quantity;
     }
 

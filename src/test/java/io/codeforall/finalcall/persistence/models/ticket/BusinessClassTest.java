@@ -2,7 +2,6 @@ package io.codeforall.finalcall.persistence.models.ticket;
 
 import io.codeforall.finalcall.persistence.model.ticket.BusinessClass;
 import io.codeforall.finalcall.persistence.model.ticket.CabinClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class BusinessClassTest {
 
     @Test
     public void testCabinClass() {
-        Assert.assertEquals(CabinClass.BUSINESS, ticket.getCabinClass());
+        assertEquals(CabinClass.BUSINESS, ticket.getCabinClass());
     }
 
     @Test
